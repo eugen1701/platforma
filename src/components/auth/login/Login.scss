@@ -1,0 +1,17 @@
+#login {
+  display: grid;
+  position: relative;
+}
+#login__heading {
+  position: center;
+  text-align: center;
+}
+
+#login__form {
+  display: flex;
+  position: center;
+
+  > li {
+    position: center;
+  }
+}

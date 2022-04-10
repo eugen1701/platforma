@@ -1,0 +1,35 @@
+@import '../../assets/shared_sass/variables';
+
+#header {
+  display: flex;
+  align-items: center;
+  height: $header-height;
+  background: #24bfa0;
+}
+
+#header__nav-buttons {
+  display: flex;
+  margin-right: 3em;
+
+  >li {
+    margin-left: 2.5em;
+  }
+}
+
+#header__nav-links {
+  display: flex;
+
+  > li {
+    margin-left: 2.5em;
+  }
+}
+
+#header__nop-logo {
+  width: 5.5em;
+}
+
+#header__right-side {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+}

@@ -1,6 +1,7 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
-import { Login } from "../Login";
+import { Login } from "../../components/auth/login/Login";
+import '../../assets/shared_sass/_style.scss'
 
 export const AuthPage: React.FC = () => {
   return (
