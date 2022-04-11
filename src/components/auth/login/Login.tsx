@@ -35,6 +35,10 @@ export const Login: React.FC = () => {
   const [state, setState] = useState<AuthInterface>(initialState);
   const { email, password } = state;
 
+  function handleLogin(e: {preventDefault: () => void}) {
+
+  }
+
   return (
     <div id="login">
       <h1 id="login__heading" className="text-black text-large">
@@ -68,6 +72,15 @@ export const Login: React.FC = () => {
             />
           </li>
         </ul>
+        <div className="checkbox mb-3">
+          <label>
+            <input type="checkbox" value="remember-me"/> Remember me
+          </label>
+        </div>
+        <div id="login__form-action" className="flex-row-center-y">
+          <button className="button-blue button-medium" onClick={handleLogin}>Login</button>
+          <button className="w-100 btn btn-lg btn-primary" onClick={handleLogin}>Login</button>
+        </div>
       </form>
     </div>
   );

@@ -1,6 +1,10 @@
 #login {
   display: grid;
   position: relative;
+  border-style: solid;
+  border-radius: 10em;
+  padding: 10em 0 10em 0;
+  margin: 0 20em 0 20em;
 }
 #login__heading {
   position: center;
@@ -8,10 +12,24 @@
 }
 
 #login__form {
-  display: flex;
-  position: center;
-
+  margin: auto;
+  display: block;
   > li {
     position: center;
   }
+}
+.w-100 {
+  width: 100%!important;
+}
+
+.btn-lg {
+  padding: 0.5rem 1rem;
+  font-size: 1.25rem;
+  border-radius: 0.3rem;
+}
+
+.btn-primary {
+  color: #fff;
+  background-color: #0d6efd;
+  border-color: #0d6efd;
 }
