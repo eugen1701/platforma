@@ -3,6 +3,7 @@ import './App.scss';
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import {AuthPage} from "./pages/auth-page/AuthPage";
 import {Header} from "./components/header/Header";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const App: React.FC = () => {
   return <BrowserRouter>

@@ -1,5 +1,7 @@
 import React, { useState } from "react";
-import "./Login.scss"
+import "./Login.scss";
+import Frorm from 'react-bootstrap';
+
 export interface AuthInterface {
   authenticationError: Error | null;
   isAuthenticated: boolean;
@@ -35,9 +37,7 @@ export const Login: React.FC = () => {
   const [state, setState] = useState<AuthInterface>(initialState);
   const { email, password } = state;
 
-  function handleLogin(e: {preventDefault: () => void}) {
-
-  }
+  function handleLogin(e: { preventDefault: () => void }) {}
 
   return (
     <div id="login">
@@ -74,12 +74,16 @@ export const Login: React.FC = () => {
         </ul>
         <div className="checkbox mb-3">
           <label>
-            <input type="checkbox" value="remember-me"/> Remember me
+            <input type="checkbox" value="remember-me" /> Remember me
           </label>
         </div>
         <div id="login__form-action" className="flex-row-center-y">
-          <button className="button-blue button-medium" onClick={handleLogin}>Login</button>
-          <button className="w-100 btn btn-lg btn-primary" onClick={handleLogin}>Login</button>
+          <button
+            className="w-100 btn btn-lg btn-primary"
+            onClick={handleLogin}
+          >
+            Login
+          </button>
         </div>
       </form>
     </div>
