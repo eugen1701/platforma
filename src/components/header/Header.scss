@@ -4,7 +4,21 @@
   display: flex;
   align-items: center;
   height: $header-height;
-  background: #24bfa0;
+  background: $erasmus-colour;
+  place-content: space-between;
+
+  #hamburger-menu{
+    cursor: pointer;
+
+  }
+
+  #header__right-side {
+    display: none;
+  }
+
+}
+#mobile-nav {
+  display: none;
 }
 
 #header__nav-buttons {
@@ -32,4 +46,24 @@
   display: flex;
   align-items: center;
   margin-left: auto;
+}
+
+#mobile-nav.menu-btn {
+  display: block !important;
+  border: 10px;
+  border-color: red;
+}
+
+#mobile-nav {
+  position: fixed;
+  z-index: 999;
+  width: 66%;
+  right: 0;
+  top: 0;
+  background: #20272e;
+  height: 100vh;
+  padding: 1em;
+  button {
+
+  }
 }

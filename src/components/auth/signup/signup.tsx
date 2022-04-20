@@ -11,6 +11,7 @@ export const Signup: React.FC = () => {
       <h1 id="signup__heading" className="text-black text-large">
         Register page
       </h1>
+        <h1>Under progress...</h1>
 
       <br />
 
