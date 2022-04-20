@@ -1,7 +1,18 @@
 #logo {
   display: flex;
+  background: white;
+  border-radius: 4em;
+  padding: 0 1em 0 1em;
 }
 #word-in {
-  color: blue;
+  color: red;
+  font-weight: bold;
+  text-decoration-line: blink;
+  -webkit-text-stroke: 1px black;
   margin-right: -3px;
+}
+
+#word-work{
+  color: purple;
+  -webkit-text-stroke: 1px black;
 }
