@@ -26,26 +26,41 @@ export const Header: React.FC = () => {
         className="dropdown-menu"
         aria-labelledby="hamburger-menu"
       >
-        ul
-        <button
-          onClick={() => {
-            console.log("daf");
-            document.getElementById("mobile-nav")!.classList.remove("menu-btn");
-          }}
-        >
-          <img src="/open-iconic/svg/x.svg" alt="Close Navigation" />
-        </button>
-        <button className="dropdown-item" type="button">
-          <Link to="/login" className="text-dark">
-            Login
-          </Link>
-        </button>
-        <button className="dropdown-item" type="button">
-          Sign up
-        </button>
-        <button className="dropdown-item" type="button">
-          About us
-        </button>
+        <ul>
+          <li>
+            <button
+              onClick={() => {
+                console.log("daf");
+                document
+                  .getElementById("mobile-nav")!
+                  .classList.remove("menu-btn");
+              }}
+            >
+              <img src="/open-iconic/svg/x.svg" alt="Close Navigation" />
+            </button>
+          </li>
+          <li>
+            <button className="dropdown-item btn-light" type="button">
+              <Link to="/login" className="text-dark">
+                Login
+              </Link>
+            </button>
+          </li>
+          <li>
+            <button className="dropdown-item btn-light" type="button">
+              <Link to="/" className="text-dark">
+                Sign Up
+              </Link>
+            </button>
+          </li>
+          <li>
+            <button className="dropdown-item btn-light" type="button">
+              <Link to="/about-us-page" className="text-dark">
+                About Us
+              </Link>
+            </button>
+          </li>
+        </ul>
       </nav>
 
       <div id="header__right-side">

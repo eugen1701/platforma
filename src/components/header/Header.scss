@@ -7,7 +7,7 @@
   background: $erasmus-colour;
   place-content: space-between;
 
-  #hamburger-menu{
+  #hamburger-menu {
     cursor: pointer;
 
   }
@@ -17,6 +17,7 @@
   }
 
 }
+
 #mobile-nav {
   display: none;
 }
@@ -25,7 +26,7 @@
   display: flex;
   margin-right: 3em;
 
-  >li {
+  > li {
     margin-left: 2.5em;
   }
 }
@@ -56,14 +57,34 @@
 
 #mobile-nav {
   position: fixed;
-  z-index: 999;
+  //z-index: 999;
   width: 66%;
   right: 0;
   top: 0;
-  background: #20272e;
+  background: #0a3056;
   height: 100vh;
   padding: 1em;
-  button {
 
+  ul {
+    margin-top: 5em;
+
+    >li {
+
+      >link {
+        border-width: 10px;
+        border-style: solid;
+        border-color: red;
+        color: white;
+        text-decoration: none;
+        display: block;
+        padding: 0.5em;
+        font-size: 1.3em;
+        text-align: right;
+
+        &:hover {
+          font-weight: bold;
+        }
+      }
+    }
   }
 }
