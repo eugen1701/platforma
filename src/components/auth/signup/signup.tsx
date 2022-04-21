@@ -1,4 +1,5 @@
 import React, {useState} from "react";
+import {Card} from "react-bootstrap";
 
 export const Signup: React.FC = () => {
 
@@ -7,14 +8,10 @@ export const Signup: React.FC = () => {
 
     }
   return (
-    <div id="signup">
-      <h1 id="signup__heading" className="text-black text-large">
-        Register page
-      </h1>
-        <h1>Under progress...</h1>
+    <Card className="border-5 shadow bg-light" id="card">
+        <div className="p-5 m-auto rounded-lg">
 
-      <br />
-
-    </div>
+        </div>
+    </Card>
   );
 };

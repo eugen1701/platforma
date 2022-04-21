@@ -6,7 +6,9 @@
   height: $header-height;
   background: $erasmus-colour;
   place-content: space-between;
-
+  border-bottom-width: 7px;
+  border-bottom-style: solid;
+  border-color: black;
   #hamburger-menu {
     cursor: pointer;
 
@@ -58,7 +60,7 @@
 #mobile-nav {
   position: fixed;
   //z-index: 999;
-  width: 66%;
+  width: 45%;
   right: 0;
   top: 0;
   background: #0a3056;
@@ -67,24 +69,46 @@
 
   ul {
     margin-top: 5em;
-
+    list-style: none;
+    margin-top: -10px;
     >li {
-
-      >link {
+      #close-button {
         border-width: 10px;
+        position: relative;
         border-style: solid;
-        border-color: red;
+        //border-color: red !important;
+        margin-bottom: 5em;
+        right: 0;
+
+      }
+
+      >button {
         color: white;
         text-decoration: none;
         display: block;
         padding: 0.5em;
         font-size: 1.3em;
         text-align: right;
+        background: white;
+        border-width: 3px;
+        border-style: solid;
+        border-color: $erasmus-colour;
+        border-radius: .5em;
+        text-decoration: none;
 
         &:hover {
           font-weight: bold;
         }
       }
     }
+  }
+}
+
+@media only screen and (min-width: $min-width-for-medium-screen) {
+  #header__right-side {
+    display: flex !important;
+  }
+  #hamburger-menu {
+    display: none;
   }
 }
