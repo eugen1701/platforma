@@ -28,7 +28,7 @@ export const Header: React.FC = () => {
       >
         <ul>
           <li>
-            <button className="btn-close-white d-block justify-content-center" id="close-button"
+            <button className="" id="close-button"
               onClick={() => {
                 console.log("daf");
                 document
@@ -36,7 +36,7 @@ export const Header: React.FC = () => {
                   .classList.remove("menu-btn");
               }}
             >
-              <img src="/open-iconic/svg/x.svg" className="" alt="Close Navigation" />
+              <img src="/open-iconic/svg/x.svg" className="btn-close-whit" alt="Close Navigation" id="x-img"/>
             </button>
           </li>
           <li>
@@ -50,6 +50,13 @@ export const Header: React.FC = () => {
             <button className="dropdown-item btn-light" type="button">
               <Link to="/signup" className="text-dark text-decoration-none">
                 Sign Up
+              </Link>
+            </button>
+          </li>
+          <li>
+            <button className="dropdown-item btn-light" type="button">
+              <Link to="/" className="text-dark text-decoration-none">
+                Home
               </Link>
             </button>
           </li>

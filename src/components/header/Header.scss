@@ -72,16 +72,6 @@
     list-style: none;
     margin-top: -10px;
     >li {
-      #close-button {
-        border-width: 10px;
-        position: relative;
-        border-style: solid;
-        //border-color: red !important;
-        margin-bottom: 5em;
-        right: 0;
-
-      }
-
       >button {
         color: white;
         text-decoration: none;
@@ -100,6 +90,18 @@
           font-weight: bold;
         }
       }
+
+      #close-button {
+        border-width: 7px;
+        position: relative;
+        border-style: solid;
+        margin-bottom: 4em;
+        background-color: white;
+
+        #x-img {
+          height: .8em;
+        }
+      }
     }
   }
 }
@@ -109,16 +111,12 @@
     display: flex !important;
     nav ul {
       margin-top: 8%;
-      //border-style: solid;
-      //border-color: red;
-      //border-radius: .5em;
       >li {
 
       }
       #link-header {
         text-decoration: none;
         font-size: 1.75em;
-        //-webkit-text-stroke: .2px black;
         &:hover {
           font-weight: bold;
           //-webkit-text-stroke: .6px black;
