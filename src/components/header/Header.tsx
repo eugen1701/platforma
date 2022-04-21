@@ -67,12 +67,12 @@ export const Header: React.FC = () => {
         <nav>
           <ul id="header__nav-buttons" className="ul flex-pull-right">
             <li>
-              <Link to="/login" className="text-dark">
+              <Link to="/login" className="text-white" id="link-header">
                 Login
               </Link>
             </li>
             <li>
-              <Link to="/signup" className="text-dark">
+              <Link to="/signup" className="text-white" id="link-header">
                 Sign Up
               </Link>
             </li>
@@ -82,12 +82,12 @@ export const Header: React.FC = () => {
         <nav id="header__nav" className="flex-row">
           <ul id="header__nav-links" className="ul">
             <li>
-              <Link to="/" className="text-dark">
+              <Link to="/" className="text-white" id="link-header">
                 Home
               </Link>
             </li>
             <li>
-              <Link to="/" className="text-dark">
+              <Link to="/about-us" className="text-white" id="link-header">
                 About Us
               </Link>
             </li>
