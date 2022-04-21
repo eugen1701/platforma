@@ -48,7 +48,7 @@ export const Header: React.FC = () => {
           </li>
           <li>
             <button className="dropdown-item btn-light" type="button">
-              <Link to="/" className="text-dark text-decoration-none">
+              <Link to="/signup" className="text-dark text-decoration-none">
                 Sign Up
               </Link>
             </button>
@@ -72,7 +72,7 @@ export const Header: React.FC = () => {
               </Link>
             </li>
             <li>
-              <Link to="/" className="text-dark">
+              <Link to="/signup" className="text-dark">
                 Sign Up
               </Link>
             </li>
