@@ -47,7 +47,8 @@ export const Login: React.FC = () => {
         <div id="in-page-logo" className="col">
           {<Logo />}
         </div>
-        <Card className="col-xxl-auto border-5 shadow bg-light" id="card">
+        <div className="col">
+        <Card className="border-5 shadow bg-light" id="card">
           <div className="p-5 m-auto rounded-lg">
             <h1 id="login__heading" className="text-black text-large">
               Login page
@@ -77,6 +78,7 @@ export const Login: React.FC = () => {
             </Form>
           </div>
         </Card>
+        </div>
       </div>
     </div>
   );
