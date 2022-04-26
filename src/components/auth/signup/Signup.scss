@@ -1,0 +1,29 @@
+@import '../../../assets/shared_sass/variables';
+
+
+#in-page-logo {
+  padding-left: 3em;
+  #word-in {
+    font-size: 4em;
+    //  -webkit-text-stroke: 7px black;
+  }
+
+  #word-work {
+    //-webkit-text-stroke: 6px black;
+  }
+}
+
+@media only screen and (min-width: $min-width-for-medium-screen) {
+  #in-page-logo {
+    padding: 12em 0 0 6em;
+
+    #word-in {
+      font-size: 10em;
+      -webkit-text-stroke: 7px black;
+    }
+
+    #word-work {
+      -webkit-text-stroke: 6px black;
+    }
+  }
+}
