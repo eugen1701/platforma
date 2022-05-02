@@ -1,9 +1,19 @@
-import React from "react";
+import React, {useMemo} from "react";
 import { Logo } from "../logo/Logo";
 import { Link } from "react-router-dom";
 import "./Header.scss";
+import {getAuth} from "firebase/auth";
+import {useAuth} from "../../context/AuthContext";
 
 export const Header: React.FC = () => {
+  const currentUser = useAuth()
+
+  const isAuthenticated = useMemo(() => currentUser !== null, [currentUser]);
+
+  const logout = async () => {
+    await getAuth().signOut()
+  }
+
   return (
     <header id="header" className="d-flex justify-content-sm-between">
       <div id="header__left-side">{<Logo />}</div>
@@ -71,20 +81,29 @@ export const Header: React.FC = () => {
       </nav>
 
       <div id="header__right-side">
-        <nav>
-          <ul id="header__nav-buttons" className="ul flex-pull-right">
-            <li>
-              <Link to="/login" className="text-white" id="link-header">
-                Login
-              </Link>
-            </li>
-            <li>
-              <Link to="/signup" className="text-white" id="link-header">
-                Sign Up
-              </Link>
-            </li>
-          </ul>
-        </nav>
+        {
+          isAuthenticated ?
+              <nav>
+                {/*TODO: Hide when logged in*/}
+                <ul id="header__nav-buttons" className="ul flex-pull-right">
+                  <li>
+                    <Link to="/login" className="text-white" id="link-header">
+                      Login
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/signup" className="text-white" id="link-header">
+                      Sign Up
+                    </Link>
+                  </li>
+                  <li>
+                    <button onClick={logout}>Logout</button>
+                  </li>
+                </ul>
+              </nav>
+              :
+              <></>
+        }
 
         <nav id="header__nav" className="flex-row">
           <ul id="header__nav-links" className="ul">

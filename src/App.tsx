@@ -6,19 +6,22 @@ import {Header} from "./components/header/Header";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {Signup} from "./components/auth/signup/signup";
 import {Welcome} from "./pages/welcome_page/Welcome";
+import {AuthProvider} from "./context/AuthContext";
 
 const App: React.FC = () => {
   return <BrowserRouter>
-    <div id="app">
-      <Header/>
-      <div id="app__routes">
-        <Routes>
-          <Route path="/" element={<Welcome/>}/>
-          <Route path="/login" element={<AuthPage/>}/>
-          <Route path="/signup" element={<Signup/>}/>
-        </Routes>
+    <AuthProvider>
+      <div id="app">
+        <Header/>
+        <div id="app__routes">
+          <Routes>
+            <Route path="/" element={<Welcome/>}/>
+            <Route path="/login" element={<AuthPage/>}/>
+            <Route path="/signup" element={<Signup/>}/>
+          </Routes>
+        </div>
       </div>
-    </div>
+    </AuthProvider>
   </BrowserRouter>
 }
 
