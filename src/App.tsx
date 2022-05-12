@@ -7,6 +7,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import {Signup} from "./components/auth/signup/signup";
 import {Welcome} from "./pages/welcome_page/Welcome";
 import {AuthProvider} from "./context/AuthContext";
+import {AccountInfo} from "./pages/account_info/AccountInfo";
+import {CreateOfferPage} from "./pages/create_offer/CreateOfferPage";
 
 const App: React.FC = () => {
   return <BrowserRouter>
@@ -18,6 +20,8 @@ const App: React.FC = () => {
             <Route path="/" element={<Welcome/>}/>
             <Route path="/login" element={<AuthPage/>}/>
             <Route path="/signup" element={<Signup/>}/>
+            <Route path="/account-info" element={<AccountInfo/>}/>
+            <Route path="/create-offer" element={<CreateOfferPage/>}/>
           </Routes>
         </div>
       </div>

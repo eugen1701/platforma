@@ -1,8 +1,8 @@
 import React, {FormEvent, FormEventHandler, useMemo, useRef, useState} from "react";
-import { Button, Card, Form } from "react-bootstrap";
+import {Alert, Button, Card, Form} from "react-bootstrap";
 import { Logo } from "../../logo/Logo";
 import {createUserWithEmailAndPassword, getAuth} from "firebase/auth";
-import {useAuth} from "../../../context/AuthContext";
+import {useNavigate} from "react-router-dom";
 
 export const Signup: React.FC = () => {
   const emailRef = useRef<HTMLInputElement | null>(null);
@@ -11,22 +11,43 @@ export const Signup: React.FC = () => {
 
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [acceptedCond, setAcceptedCond] = useState(false);
 
   const [currentPage, setCurrentPage] = useState<number>(1);
+  let navigate = useNavigate();
 
   const onFormSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
 
+    setLoading(true);
     const email = emailRef.current?.value
     const password = passwordRef.current?.value
     const passwordConfirmation = passwordConfirmRef.current?.value
 
     if (!email || !password || !passwordConfirmation || password !== passwordConfirmation) {
+      if(!email || email===''){
+        // alert("Please insert email");
+        setError("Please insert email")
+      }
+      if(!password){
+        // alert("Please insert password");
+        setError("Please insert password")
+      }
+      if(!passwordConfirmation){
+        // alert("Please insert again the password");
+        setError("Please insert again the password");
+      }
+      if(password !== passwordConfirmation){
+        // alert("The passwords are not the same")
+        setError("The passwords are not the same")
+      }
+      setLoading(false);
       return
     }
 
     const result = await createUserWithEmailAndPassword(getAuth(), email, password)
-    // TODO: Redirect to app content
+    navigate("/");
+
   }
 
   return (
@@ -66,16 +87,19 @@ export const Signup: React.FC = () => {
                   <Form.Check
                     type="checkbox"
                     label="I agree with terms and conditions"
+                    onChange={() => setAcceptedCond(!acceptedCond)}
                   />
                 </Form.Group>
                 <Button
+                    disabled={loading || !acceptedCond}
                   variant="primary btn-block w-100"
                   type="submit"
-                  id="login-button"
+                  id="signup-button"
                 >
                   Sign up
                 </Button>
               </Form>
+              {error && <Alert id="error-auth" variant="danger">{error}</Alert>}
               <h5>
                 From here the user should be redirected to a page where he can
                 fill in the personal information in order to make the

@@ -1,18 +1,25 @@
-import React, {useMemo} from "react";
+import React, { useMemo } from "react";
 import { Logo } from "../logo/Logo";
-import { Link } from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import "./Header.scss";
-import {getAuth} from "firebase/auth";
-import {useAuth} from "../../context/AuthContext";
+import { getAuth } from "firebase/auth";
+import { useAuth } from "../../context/AuthContext";
+import { AccountMenu } from "../account_menu/AccountMenu";
 
 export const Header: React.FC = () => {
-  const currentUser = useAuth()
+  const currentUser = useAuth();
 
   const isAuthenticated = useMemo(() => currentUser !== null, [currentUser]);
+  let navigator = useNavigate();
+
+  const navigateAccountInfo = async () => {
+    await navigator("account-info");
+  }
 
   const logout = async () => {
-    await getAuth().signOut()
-  }
+    await getAuth().signOut();
+    navigator("/login");
+  };
 
   return (
     <header id="header" className="d-flex justify-content-sm-between">
@@ -38,7 +45,9 @@ export const Header: React.FC = () => {
       >
         <ul>
           <li>
-            <button className="" id="close-button"
+            <button
+              className=""
+              id="close-button"
               onClick={() => {
                 console.log("daf");
                 document
@@ -46,7 +55,12 @@ export const Header: React.FC = () => {
                   .classList.remove("menu-btn");
               }}
             >
-              <img src="/open-iconic/svg/x.svg" className="btn-close-whit" alt="Close Navigation" id="x-img"/>
+              <img
+                src="/open-iconic/svg/x.svg"
+                className="btn-close-whit"
+                alt="Close Navigation"
+                id="x-img"
+              />
             </button>
           </li>
           <li>
@@ -72,7 +86,10 @@ export const Header: React.FC = () => {
           </li>
           <li>
             <button className="dropdown-item btn-light" type="button">
-              <Link to="/about-us-page" className="text-dark text-decoration-none">
+              <Link
+                to="/about-us-page"
+                className="text-dark text-decoration-none"
+              >
                 About Us
               </Link>
             </button>
@@ -81,30 +98,30 @@ export const Header: React.FC = () => {
       </nav>
 
       <div id="header__right-side">
-        {
-          isAuthenticated ?
-              <nav>
-                {/*TODO: Hide when logged in*/}
-                <ul id="header__nav-buttons" className="ul flex-pull-right">
-                  <li>
-                    <Link to="/login" className="text-white" id="link-header">
-                      Login
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/signup" className="text-white" id="link-header">
-                      Sign Up
-                    </Link>
-                  </li>
-                  <li>
-                    <button onClick={logout}>Logout</button>
-                  </li>
-                </ul>
-              </nav>
-              :
+        <nav>
+          {/*TODO: Hide when logged in*/}
+          <ul id="header__nav-buttons" className="ul flex-pull-right">
+            <li>
+              <Link to="/login" className="text-white" id="link-header">
+                Login
+              </Link>
+            </li>
+            <li>
+              <Link to="/signup" className="text-white" id="link-header">
+                Sign Up
+              </Link>
+            </li>
+            {isAuthenticated ? (
+              <li>
+                <button className="btn btn-primary" onClick={logout}>
+                  Logout trb scos
+                </button>
+              </li>
+            ) : (
               <></>
-        }
-
+            )}
+          </ul>
+        </nav>
         <nav id="header__nav" className="flex-row">
           <ul id="header__nav-links" className="ul">
             <li>
@@ -117,6 +134,7 @@ export const Header: React.FC = () => {
                 About Us
               </Link>
             </li>
+            <AccountMenu/>
           </ul>
         </nav>
       </div>

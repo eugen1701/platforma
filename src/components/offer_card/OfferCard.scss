@@ -1,0 +1,26 @@
+
+.row {
+  height: 1em !important;
+}
+.container.absolute {
+  position: relative;
+  //border-style: solid;
+  //border-width: 3px;
+  //border-color: red;
+}
+.ifToLongPut3Dots{
+  overflow: hidden;
+  height: 4.8em;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+.locationdiv {
+  gap: .5rem;
+  margin-top: .6em;
+}
+
+.imageCompany {
+  width: 100px;
+  height: 100px;
+}
