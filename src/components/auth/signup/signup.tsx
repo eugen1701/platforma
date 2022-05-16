@@ -1,10 +1,28 @@
-import React, {FormEvent, FormEventHandler, useMemo, useRef, useState} from "react";
-import {Alert, Button, Card, Form} from "react-bootstrap";
+import React, {
+  FormEvent,
+  FormEventHandler,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
+import {
+  Alert,
+  Button,
+  Card,
+  Form,
+  FormGroup,
+  ButtonGroup,
+  ToggleButton,
+  ToggleButtonGroup,
+} from "react-bootstrap";
 import { Logo } from "../../logo/Logo";
-import {createUserWithEmailAndPassword, getAuth} from "firebase/auth";
-import {useNavigate} from "react-router-dom";
+import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
+import { db } from "../../../firebase";
+import { setDoc, collection, doc } from "firebase/firestore";
 
 export const Signup: React.FC = () => {
+  const [userKind, setUserKind] = useState("normal");
   const emailRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
   const passwordConfirmRef = useRef<HTMLInputElement | null>(null);
@@ -17,38 +35,50 @@ export const Signup: React.FC = () => {
   let navigate = useNavigate();
 
   const onFormSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
+    event.preventDefault();
 
     setLoading(true);
-    const email = emailRef.current?.value
-    const password = passwordRef.current?.value
-    const passwordConfirmation = passwordConfirmRef.current?.value
+    const email = emailRef.current?.value;
+    const password = passwordRef.current?.value;
+    const passwordConfirmation = passwordConfirmRef.current?.value;
 
-    if (!email || !password || !passwordConfirmation || password !== passwordConfirmation) {
-      if(!email || email===''){
+    if (
+      !email ||
+      !password ||
+      !passwordConfirmation ||
+      password !== passwordConfirmation
+    ) {
+      if (!email || email === "") {
         // alert("Please insert email");
-        setError("Please insert email")
+        setError("Please insert email");
       }
-      if(!password){
+      if (!password) {
         // alert("Please insert password");
-        setError("Please insert password")
+        setError("Please insert password");
       }
-      if(!passwordConfirmation){
+      if (!passwordConfirmation) {
         // alert("Please insert again the password");
         setError("Please insert again the password");
       }
-      if(password !== passwordConfirmation){
+      if (password !== passwordConfirmation) {
         // alert("The passwords are not the same")
-        setError("The passwords are not the same")
+        setError("The passwords are not the same");
       }
       setLoading(false);
-      return
+      return;
     }
 
-    const result = await createUserWithEmailAndPassword(getAuth(), email, password)
-    navigate("/");
+    const result = await createUserWithEmailAndPassword(
+      getAuth(),
+      email,
+      password
+    );
+    const uid = await result.user.getIdToken();
+    const docRef = doc(db, "userWithTypes", uid);
+    await setDoc(docRef, { id: uid, type: userKind });
 
-  }
+    navigate("/");
+  };
 
   return (
     <div className="container-fluid d-flex">
@@ -63,6 +93,33 @@ export const Signup: React.FC = () => {
                 Sign up
               </h1>
               <Form className="rounded p-4 p-sm-3" onSubmit={onFormSubmit}>
+                <FormGroup>
+                  <Form.Label>
+                    What kind of user would you like to be?
+                  </Form.Label>
+                  <ButtonGroup className="d-flex">
+                    <ToggleButton
+                      type="radio"
+                      value="normal"
+                      className="col"
+                      checked={userKind === "normal"}
+                      variant="outline-info"
+                      onClick={() => setUserKind("normal")}
+                    >
+                      Tomorrow employee
+                    </ToggleButton>
+                    <ToggleButton
+                      type="radio"
+                      value="employer"
+                      className="col"
+                      checked={userKind === "employer"}
+                      variant="outline-secondary"
+                      onClick={() => setUserKind("employer")}
+                    >
+                      Today employer
+                    </ToggleButton>
+                  </ButtonGroup>
+                </FormGroup>
                 <Form.Group className="mb-3" controlId="formBasicEmail">
                   <Form.Label>Email Address</Form.Label>
                   <Form.Control
@@ -81,7 +138,11 @@ export const Signup: React.FC = () => {
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="formBasicPassword">
                   <Form.Label>Repeat Password</Form.Label>
-                  <Form.Control type="password" placeholder="Repeat Password" ref={passwordConfirmRef} />
+                  <Form.Control
+                    type="password"
+                    placeholder="Repeat Password"
+                    ref={passwordConfirmRef}
+                  />
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="formBasicCheckbox">
                   <Form.Check
@@ -91,7 +152,7 @@ export const Signup: React.FC = () => {
                   />
                 </Form.Group>
                 <Button
-                    disabled={loading || !acceptedCond}
+                  disabled={loading || !acceptedCond}
                   variant="primary btn-block w-100"
                   type="submit"
                   id="signup-button"
@@ -99,7 +160,11 @@ export const Signup: React.FC = () => {
                   Sign up
                 </Button>
               </Form>
-              {error && <Alert id="error-auth" variant="danger">{error}</Alert>}
+              {error && (
+                <Alert id="error-auth" variant="danger">
+                  {error}
+                </Alert>
+              )}
               <h5>
                 From here the user should be redirected to a page where he can
                 fill in the personal information in order to make the
