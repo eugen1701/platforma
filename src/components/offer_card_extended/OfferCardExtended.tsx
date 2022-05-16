@@ -19,8 +19,9 @@ export const OfferCardExtended: React.FC<OfferCardProps> = (props) => {
               />
               <div className="d-flex flex-column justify-content-start">
                 <div className="d-flex form-p"><p className="text-bold ">Location: </p><p>{props.location}</p></div>
-                <div className="d-flex form-p"><p className="text-bold ">Salary</p><p>{props.salary}</p></div>
-                <div className="d-flex form-p"><p className="text-bold ">Domain</p><p>{props.domain}</p></div>
+                <div className="d-flex form-p"><p className="text-bold ">Salary:</p><p>{props.salary}</p></div>
+                <div className="d-flex form-p"><p className="text-bold ">Domain:</p><p>{props.domain}</p></div>
+                <div className="d-flex form-p"><p className="text-bold ">Company:</p><p>{props.company}</p></div>
               </div>
             </div>
             <Card.Text>{props.description}</Card.Text>

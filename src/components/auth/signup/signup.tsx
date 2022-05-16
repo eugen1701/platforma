@@ -31,7 +31,6 @@ export const Signup: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [acceptedCond, setAcceptedCond] = useState(false);
 
-  const [currentPage, setCurrentPage] = useState<number>(1);
   let navigate = useNavigate();
 
   const onFormSubmit = async (event: FormEvent<HTMLFormElement>) => {
