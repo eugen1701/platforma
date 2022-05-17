@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from "react";
+import {useTranslation} from "react-i18next";
 import "./Welcome.scss";
 import { OfferCard } from "../../components/offer_card/OfferCard";
 import { OfferCardExtended } from "../../components/offer_card_extended/OfferCardExtended";
-import {Button, CardGroup, Dropdown, Form} from "react-bootstrap";
-import { doc, getDoc } from "firebase/firestore";
+import { Button, CardGroup, Dropdown, Form } from "react-bootstrap";
+import { collection, getDocs } from "firebase/firestore";
+import { ref, getDownloadURL } from "firebase/storage";
 import { db } from "../../firebase";
 import { DomainList } from "../../utils/DomainList";
+import { storage } from "../../firebase";
+import { OfferCardProps } from "../../components/offer_card/OfferCard";
 
 let offer1 = {
   title: "Software engineer",
@@ -14,7 +18,7 @@ let offer1 = {
   description:
     "We build products and features for the Power Platform specializing in business applications, automation, and AI. With a low-code/no-code experience, we bridge the Azure AI world to the Power Platform, empowering our business users to solve real business problems.\n" +
     "We engineer innovative experiences and cloud services our enterprise customers can rely on for their critical processes all over the world.\n ",
-  logo: "/dummy/img.png",
+  urlLogo: "/dummy/img.png",
   salary: "20-30k",
   location: "Paris, France",
   selected: false,
@@ -26,28 +30,48 @@ let offer2 = {
   description:
     "We build products and features for the Power Platform specializing in business applications, automation, and AI. With a low-code/no-code experience, we bridge the Azure AI world to the Power Platform, empowering our business users to solve real business problems.\n" +
     "We engineer innovative experiences and cloud services our enterprise customers can rely on for their critical processes all over the world.\n ",
-  logo: "/dummy/img.png",
+  urlLogo: "/dummy/img.png",
   salary: "20-30k",
   location: "Paris, France",
   selected: false,
 };
 
 export const Welcome: React.FC = () => {
-  let dummy = [offer1, offer2];
-  const [selectedCard, setSelectedCard] = useState(offer1);
+  const [isPending, startTransition] = useTranslation();
+  const [data, setData] = useState<Array<OfferCardProps>>([]);
+  const [selectedCard, setSelectedCard] = useState<OfferCardProps | null>(null);
   const [offers, setOffers] = useState([]);
   const [selectedDomainFilter, setSelectedDomainFilter] = useState("");
   const [inputTitleFilter, setInputTitleFilter] = useState("");
 
   useEffect(() => {
-    const docRef = doc(db, "jobOffers", "mY6DgKDr8TDAfWyHgS5e");
     const getData = async () => {
-      const data = await getDoc(docRef);
-      if (data.exists()) {
-        console.log(data.data());
-      } else console.log("boule, nu merge");
-    };
+      const jobOffersCollectionRef = collection(db, "jobOffers");
+      const querySnapShot = await getDocs(jobOffersCollectionRef);
+      const loadedData = Array<OfferCardProps>();
+      const getEachOffer = async () => { // i think this one can be excluded and put its code just out of it
+        querySnapShot.forEach((doc) => {
+          let offer = {} as OfferCardProps;
 
+          offer.title = doc.data().title;
+          try {
+            offer.description = doc.data().description;
+            // offer.company = doc.data().company;
+            offer.domain = doc.data().domain;
+          } catch (error) {
+            console.log(error);
+          }
+          getDownloadURL(ref(storage, `images/${doc.id}`))
+          .then((url) => {
+          offer.urlLogo = url;
+          })
+          loadedData.push(offer);
+        });
+      }
+      await getEachOffer();
+      setData(loadedData);
+      console.log(data);
+    };
     getData();
   }, []);
 
@@ -55,12 +79,10 @@ export const Welcome: React.FC = () => {
     setSelectedDomainFilter(domain);
   };
 
-  const filteredData = dummy.filter(el => {
-    if(inputTitleFilter ==='') return el;
-    else return el.title.toLowerCase().includes(inputTitleFilter)
-  })
-
-
+  const filteredData = data.filter((el) => {
+    if (inputTitleFilter === "") return el;
+    else return el.title.toLowerCase().includes(inputTitleFilter);
+  });
 
   return (
     <div className="container-fluid ">
@@ -94,10 +116,19 @@ export const Welcome: React.FC = () => {
               Title
             </Dropdown.Toggle>
             <Dropdown.Menu className="dropdown-menu">
-              <Form.Control className="search" placeholder="Title..." onChange={e => {return setInputTitleFilter(e.target.value)}}></Form.Control>
+              <Form.Control
+                className="search"
+                placeholder="Title..."
+                onChange={(e) => {
+                  return setInputTitleFilter(e.target.value);
+                }}
+              ></Form.Control>
               <Button className="btn btn-light">
-                <div className="d-flex"><img src="open-iconic/svg/search.svg" alt="search-button"/>
-                  <h6>Search</h6></div></Button>
+                <div className="d-flex">
+                  <img src="open-iconic/svg/search.svg" alt="search-button" />
+                  <h6>Search</h6>
+                </div>
+              </Button>
             </Dropdown.Menu>
           </Dropdown>
         </div>
@@ -111,7 +142,7 @@ export const Welcome: React.FC = () => {
                 description={of.description}
                 company={of.company}
                 salary={of.salary}
-                urlLogo={of.logo}
+                urlLogo={of.urlLogo}
                 location={of.location}
               />
             </div>
@@ -119,12 +150,12 @@ export const Welcome: React.FC = () => {
         </CardGroup>
         <div className="col">
           <OfferCardExtended
-            title={selectedCard.title}
-            description={selectedCard.description}
-            company={selectedCard.company}
-            salary={selectedCard.salary}
-            urlLogo={selectedCard.logo}
-            location={selectedCard.location}
+            title={selectedCard?.title!}
+            description={selectedCard?.description}
+            company={selectedCard?.company}
+            salary={selectedCard?.salary}
+            urlLogo={selectedCard?.urlLogo}
+            location={selectedCard?.location}
           />
         </div>
       </div>
