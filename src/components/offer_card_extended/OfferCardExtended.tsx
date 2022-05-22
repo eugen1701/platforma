@@ -1,9 +1,9 @@
 import React from "react";
-import { OfferCardProps } from "../offer_card/OfferCard";
+import { OfferCardInterface } from '../../utils/interfaces/OfferCardInterface';
 import { Card } from "react-bootstrap";
 import "./OfferCardExtended.scss";
 
-export const OfferCardExtended: React.FC<OfferCardProps> = (props) => {
+export const OfferCardExtended: React.FC<OfferCardInterface> = (props) => {
   return (
     <div id="extended-card">
       <Card className="shadow">

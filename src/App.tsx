@@ -9,6 +9,8 @@ import {Welcome} from "./pages/welcome_page/Welcome";
 import {AuthProvider} from "./context/AuthContext";
 import {AccountInfo} from "./pages/account_info/AccountInfo";
 import {CreateOfferPage} from "./pages/create_offer/CreateOfferPage";
+import {AddCompany} from "./pages/add_company/AddCompany";
+import {Dashboard} from "./pages/dashboard/Dashboard";
 
 const App: React.FC = () => {
   return <BrowserRouter>
@@ -18,10 +20,12 @@ const App: React.FC = () => {
         <div id="app__routes">
           <Routes>
             <Route path="/" element={<Welcome/>}/>
+            <Route path="/dashboard" element={<Dashboard/>}/>
             <Route path="/login" element={<AuthPage/>}/>
             <Route path="/signup" element={<Signup/>}/>
             <Route path="/account-info" element={<AccountInfo/>}/>
             <Route path="/create-offer" element={<CreateOfferPage/>}/>
+            <Route path="/add-company" element={<AddCompany/>}/>
           </Routes>
         </div>
       </div>

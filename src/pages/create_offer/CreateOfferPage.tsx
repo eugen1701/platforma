@@ -18,17 +18,19 @@ import './CreateOfferPage.scss'
 export const CreateOfferPage:React.FC = () => {
     const [title, setTitle] = useState("");
     const [domain, setDomain] = useState("");
+    const salaryRef = useRef<HTMLInputElement | null>(null);
+    const locationRef = useRef<HTMLInputElement | null>(null);
     const [imageUpload, setImageUpload] = useState<File|null>(null);
     const descriptionRef = useRef<HTMLTextAreaElement | null >(null);
     const uploadImage = (key:string) => {
         if(imageUpload == null) return;
-        const imageRef = ref(storage, `images/${key}`) //TODO: find a random name for the image
+        const imageRef = ref(storage, `images/${key}`)
         uploadBytes(imageRef, imageUpload).then(() => alert("image uploaded"))
     }
     const fileChangedHandler = (e:React.ChangeEvent<HTMLInputElement>) =>{
         if(!e.target.files)return;
         setImageUpload(e.target.files[0]);
-        var image = document.getElementById("previewJobImage")!;
+        let image = document.getElementById("previewJobImage")!;
         image.setAttribute("src", URL.createObjectURL(e.target.files[0]));
     }
 
@@ -36,9 +38,10 @@ export const CreateOfferPage:React.FC = () => {
 
         e.preventDefault()
         const description = descriptionRef.current?.value;
-
+        const salary = salaryRef.current?.value;
+        const location = locationRef.current?.value;
         const jobOfferCollRef = collection(db, 'jobOffers');
-        addDoc(jobOfferCollRef, {'title':title, "domain":domain, "description":description}).then(
+        addDoc(jobOfferCollRef, {'title':title, "domain":domain, "description":description, "salary":salary, "location":location}).then(
             response => {
                 const keyDoc = response.id;
                 uploadImage(keyDoc);
@@ -76,17 +79,17 @@ export const CreateOfferPage:React.FC = () => {
             </FormGroup>
             <FormGroup>
                 <FormLabel for="jobSalaryRange">Salary Range</FormLabel>
-                <FormControl placeholder="Salary Range"/>
+                <FormControl placeholder="Salary Range" ref={salaryRef}/>
                 <FormText className="text-muted">You can set it private or give a motivational range</FormText>
             </FormGroup>
             <FormGroup>
-                <FormLabel for="jobImage">Select the image to represent the job or your company</FormLabel>
+                <FormLabel for="jobImage">Select the image to represent the job or your company</FormLabel><br/>
                 <input type="file" onChange={fileChangedHandler}/>
                 <Image id="previewJobImage" src="https://image.shutterstock.com/image-vector/abstract-wave-logo-sample-vector-260nw-392139418.jpg" alt="preview image"/>
             </FormGroup>
             <FormGroup>
                 <FormLabel for="jobLocation">What will be the location of the job?</FormLabel>
-                <FormControl placeholder="Insert a location"/>
+                <FormControl placeholder="Insert a location" ref={locationRef}/>
             </FormGroup>
             <FormGroup>
                 <FormLabel for="jobDescription">Add a description with more details about the job</FormLabel>

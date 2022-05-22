@@ -1,36 +1,24 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Card, FormText, Image} from "react-bootstrap";
 import './OfferCard.scss'
+import { OfferCardInterface} from "../../utils/interfaces/OfferCardInterface";
 
-export interface OfferCardProps {
-  title: string;
-  company?: string;
-  domain?: string;
-  description?: string;
-  urlLogo?: string;
-  salary?: string;
-  location?: string;
-  selected?:boolean;
-}
+export const OfferCard: React.FC<OfferCardInterface> = (props) => {
+  const [loaded, setLoaded] = useState(false);
 
-export const OfferCard: React.FC<OfferCardProps> = (props) => {
-  const [selected, setSelected] = useState(false);
-  function onClickSelected() {
-    setSelected(true);
-    console.log(props.title+"is selected");
-  }
   return (
-    <Card className="shadow" onClick={onClickSelected}
-    >
+    <Card className="shadow">
       <Card.Header>
         <h4 className="font-monospace text-center">{props.title}</h4>
       </Card.Header>
       <Card.Body className="container h-25 absolute">
         <div className="d-flex card-row">
             <Card.Img
+                style={loaded ? {} : {display:"none"}}
               src={props.urlLogo}
               alt={`image${props.company}`}
               className="img-fluid imageCompany"
+              onLoad={() => setLoaded(true)}
             />
           <div className="d-flex flex-column">
             <FormText className="form-text ifToLongPut3Dots">

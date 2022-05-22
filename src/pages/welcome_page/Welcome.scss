@@ -1,21 +1,7 @@
-
-.container {
-  display: flex;
-  flex-direction: row;
-  height: 100vh;
+#welcome_carousel {
+  padding: 0!important;
 }
 
-.left-col{
-  justify-content: center;
-  align-items: center;
-  background: #ddd;
-  overflow-y: scroll;
-  height: 40em;
-}
-
-#filter {
-  margin-bottom: 70px;
-}
-.search {
-  width: 300px;
+.imgCarousel{
+  height: 600px!important;
 }

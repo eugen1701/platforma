@@ -1,0 +1,21 @@
+
+.container {
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+}
+
+.left-col{
+  justify-content: center;
+  align-items: center;
+  background: #ddd;
+  overflow-y: scroll;
+  height: 40em;
+}
+
+#filter {
+  margin-bottom: 70px;
+}
+.search {
+  width: 300px;
+}

@@ -76,7 +76,7 @@ export const Signup: React.FC = () => {
     const docRef = doc(db, "userWithTypes", uid);
     await setDoc(docRef, { id: uid, type: userKind });
 
-    navigate("/");
+    if(userKind === "employer") navigate("/add-company");
   };
 
   return (
@@ -164,11 +164,11 @@ export const Signup: React.FC = () => {
                   {error}
                 </Alert>
               )}
-              <h5>
-                From here the user should be redirected to a page where he can
-                fill in the personal information in order to make the
-                recomandation possible
-              </h5>
+              {/*<h5>*/}
+              {/*  From here the user should be redirected to a page where he can*/}
+              {/*  fill in the personal information in order to make the*/}
+              {/*  recomandation possible*/}
+              {/*</h5>*/}
             </div>
           </Card>
         </div>
