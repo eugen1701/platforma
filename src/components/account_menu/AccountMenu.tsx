@@ -3,7 +3,8 @@ import { Dropdown } from "react-bootstrap";
 import {Link, useNavigate} from "react-router-dom";
 import {useAuth} from "../../context/AuthContext";
 import {getAuth} from "firebase/auth";
-
+import {updateDoc, doc} from "firebase/firestore";
+import {db} from "../../firebase";
 
 
 export const AccountMenu: React.FC = () => {
@@ -11,6 +12,8 @@ export const AccountMenu: React.FC = () => {
   const isAuthenticated = useMemo(() => currentUser !== null, [currentUser]);
   let navigator = useNavigate();
   const logout = async () => {
+    const user = getAuth();
+    await updateDoc(doc(db, "users", user.currentUser?.uid!), {isOnline: false});
     await getAuth().signOut();
     navigator("/login");
   };
@@ -45,10 +48,10 @@ export const AccountMenu: React.FC = () => {
                 <Dropdown.Item href="#" className="dropdown-item">
                   Favorites
                 </Dropdown.Item>
-                <Dropdown.Item href="#" className="dropdown-item" onClick={navigateAccountInfo}>
+                <Dropdown.Item href="account-info" className="dropdown-item text-black text-bold" onClick={navigateAccountInfo}>
                   Info account
                 </Dropdown.Item>
-                <Dropdown.Item href="#" className="dropdown-item" onClick={logout}>
+                <Dropdown.Item href="#" className="dropdown-item text-black text-bold" onClick={logout}>
                   <img src="open-iconic/svg/account-logout.svg"/> Sing out
                 </Dropdown.Item>
               </Dropdown.Menu>
@@ -59,12 +62,12 @@ export const AccountMenu: React.FC = () => {
               >
                 <Dropdown.Item className="dropdown-item">
                   <div className="d-flex justify-content-between">
-                    <Link to="/signup">Sign up</Link><img src="open-iconic/svg/check.svg" className="justify-content-center" height="13em"/>
+                    <Link to="/signup" className="text-decoration-none text-black text-bold">Sign up</Link><img src="open-iconic/svg/check.svg" className="justify-content-center" height="13em"/>
                   </div>
                 </Dropdown.Item>
                 <Dropdown.Item className="dropdown-item">
                   <div className="d-flex justify-content-between">
-                    <Link to="/login">Login</Link><img src="open-iconic/svg/account-login.svg" className="justify-content-center" height="13em"/>
+                    <Link to="/login" className="text-decoration-none text-black text-bold">Login</Link><img src="open-iconic/svg/account-login.svg" className="justify-content-center" height="13em"/>
                   </div>
                 </Dropdown.Item>
               </Dropdown.Menu>

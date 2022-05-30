@@ -2,7 +2,6 @@ import React, { useMemo } from "react";
 import { Logo } from "../logo/Logo";
 import {Link, useNavigate} from "react-router-dom";
 import "./Header.scss";
-import { getAuth } from "firebase/auth";
 import { useAuth } from "../../context/AuthContext";
 import { AccountMenu } from "../account_menu/AccountMenu";
 
@@ -10,16 +9,6 @@ export const Header: React.FC = () => {
   const currentUser = useAuth();
 
   const isAuthenticated = useMemo(() => currentUser !== null, [currentUser]);
-  let navigator = useNavigate();
-
-  const navigateAccountInfo = async () => {
-    await navigator("account-info");
-  }
-
-  const logout = async () => {
-    await getAuth().signOut();
-    navigator("/login");
-  };
 
   return (
     <header id="header" className="d-flex justify-content-sm-between">
@@ -101,29 +90,31 @@ export const Header: React.FC = () => {
         <nav>
           {/*TODO: Hide when logged in*/}
           <ul id="header__nav-buttons" className="ul flex-pull-right">
-            <li>
-              <Link to="/login" className="text-white" id="link-header">
-                Login
-              </Link>
-            </li>
-            <li>
-              <Link to="/signup" className="text-white" id="link-header">
-                Sign Up
-              </Link>
-            </li>
             {isAuthenticated ? (
-              <li>
-                <button className="btn btn-primary" onClick={logout}>
-                  Logout trb scos
-                </button>
-              </li>
-            ) : (
               <></>
+            ) : (
+              <>
+                <li>
+                  <Link to="/login" className="text-white" id="link-header">
+                    Login
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/signup" className="text-white" id="link-header">
+                    Sign Up
+                  </Link>
+                </li>
+              </>
             )}
           </ul>
         </nav>
         <nav id="header__nav" className="flex-row">
           <ul id="header__nav-links" className="ul">
+            <li>
+              <Link to="/dashboard" className="text-white" id="link-header">
+                Offers
+              </Link>
+            </li>
             <li>
               <Link to="/" className="text-white" id="link-header">
                 Home

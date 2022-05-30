@@ -50,6 +50,7 @@
   },
   "devDependencies": {
     "@types/google.maps": "^3.48.8",
+    "eslint": "^8.16.0",
     "prettier": "2.6.2",
     "sass": "^1.50.0"
   }

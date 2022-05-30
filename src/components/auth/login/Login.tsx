@@ -2,8 +2,10 @@ import React, {FormEvent, useEffect, useRef, useState} from "react";
 import "./Login.scss";
 import {Form, Button, Card, Alert} from "react-bootstrap";
 import { Logo } from "../../logo/Logo";
-import { signInWithEmailAndPassword, getAuth } from "firebase/auth"
+import { signInWithEmailAndPassword, getAuth} from "firebase/auth"
 import {Link, useNavigate} from "react-router-dom";
+import {updateDoc, doc} from "firebase/firestore";
+import {db} from "../../../firebase";
 
 export const Login: React.FC = () => {
   const emailRef = useRef<HTMLInputElement | null>(null);
@@ -34,6 +36,7 @@ export const Login: React.FC = () => {
 
     try{
     const result = await signInWithEmailAndPassword(getAuth(), email, password);
+    await updateDoc(doc(db, "users", result.user.uid), {isOnline: true});
     routeChange();
     } catch (err) {
       console.log(err);
@@ -83,6 +86,7 @@ export const Login: React.FC = () => {
           <div className="w-100 text-center mt-2">
             Need an account? <Link to={"/signup"}>Sign up</Link>
           </div>
+          <Link to="/forgot-password" className="w-100 text-center mt-2"><p>Forgot your password?</p></Link>
         </Card>
         </div>
       </div>

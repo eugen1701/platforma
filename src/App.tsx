@@ -11,6 +11,8 @@ import {AccountInfo} from "./pages/account_info/AccountInfo";
 import {CreateOfferPage} from "./pages/create_offer/CreateOfferPage";
 import {AddCompany} from "./pages/add_company/AddCompany";
 import {Dashboard} from "./pages/dashboard/Dashboard";
+import {ForgotPasswordPage} from "./pages/forgot_password_page/ForgotPasswordPage";
+import {PrivateRoute} from "./components/private_route/PrivateRoute";
 
 const App: React.FC = () => {
   return <BrowserRouter>
@@ -23,9 +25,16 @@ const App: React.FC = () => {
             <Route path="/dashboard" element={<Dashboard/>}/>
             <Route path="/login" element={<AuthPage/>}/>
             <Route path="/signup" element={<Signup/>}/>
-            <Route path="/account-info" element={<AccountInfo/>}/>
-            <Route path="/create-offer" element={<CreateOfferPage/>}/>
-            <Route path="/add-company" element={<AddCompany/>}/>
+            <Route element={<PrivateRoute path="/account-info"/>}>
+              <Route path="/account-info" element={<AccountInfo/>}/>
+            </Route>
+            <Route element={<PrivateRoute path="/create-offer"/>}>
+              <Route path="/create-offer" element={<CreateOfferPage/>}/>
+            </Route>
+            <Route element={<PrivateRoute path="/add-company"/>}>
+              <Route path="/add-company" element={<AddCompany/>}/>
+            </Route>
+            <Route path="/forgot-password" element={<ForgotPasswordPage/>}/>
           </Routes>
         </div>
       </div>

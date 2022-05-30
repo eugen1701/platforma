@@ -1,6 +1,6 @@
-//#app:not(#app__routes) > * {
-//  padding: 0 12vw;
-//}
+#app > *:not(#app__routes#welcome_page) {
+  padding: 0 12vw;
+}
 //
 //#app__routes > * {
 //  padding-top: 3em;

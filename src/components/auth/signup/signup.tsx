@@ -1,7 +1,5 @@
 import React, {
   FormEvent,
-  FormEventHandler,
-  useMemo,
   useRef,
   useState,
 } from "react";
@@ -19,10 +17,10 @@ import { Logo } from "../../logo/Logo";
 import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import { db } from "../../../firebase";
-import { setDoc, collection, doc } from "firebase/firestore";
+import { setDoc, collection, doc, Timestamp } from "firebase/firestore";
 
 export const Signup: React.FC = () => {
-  const [userKind, setUserKind] = useState("normal");
+  const [userKind, setUserKind] = useState<string>("normal");
   const emailRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
   const passwordConfirmRef = useRef<HTMLInputElement | null>(null);
@@ -72,11 +70,12 @@ export const Signup: React.FC = () => {
       email,
       password
     );
-    const uid = await result.user.getIdToken();
-    const docRef = doc(db, "userWithTypes", uid);
-    await setDoc(docRef, { id: uid, type: userKind });
+    const uid = await result.user?.uid;
+    const docRef = doc(db, "users", uid);
+    await setDoc(docRef, { uid: uid, type: userKind, email, isOnline: true, createdAt: Timestamp.fromDate(new Date())});
 
     if(userKind === "employer") navigate("/add-company");
+    else navigate("/dashboard")
   };
 
   return (

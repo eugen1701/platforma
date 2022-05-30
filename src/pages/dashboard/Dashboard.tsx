@@ -12,10 +12,8 @@ import { storage } from "../../firebase";
 import { OfferCardInterface} from "../../utils/interfaces/OfferCardInterface";
 
 export const Dashboard: React.FC = () => {
-    const [isPending, startTransition] = useTranslation();
     const [data, setData] = useState<Array<OfferCardInterface>>([]);
     const [selectedCard, setSelectedCard] = useState<OfferCardInterface | null>(null);
-    const [offers, setOffers] = useState([]);
     const [selectedDomainFilter, setSelectedDomainFilter] = useState("");
     const [inputTitleFilter, setInputTitleFilter] = useState("");
 
@@ -59,17 +57,23 @@ export const Dashboard: React.FC = () => {
     }, []);
 
     const handleClickDomainFilter = (domain: string) => {
+        console.log("The domain is: " + domain)
         setSelectedDomainFilter(domain);
     };
 
     const filteredData = data.filter((el) => {
-        if (inputTitleFilter === "") return el;
-        else return el.title.toLowerCase().includes(inputTitleFilter);
+        if (inputTitleFilter === "" && selectedDomainFilter === "") return el;
+        else{
+            const elementToFilter = el.title.toLowerCase().includes(inputTitleFilter);
+            if(selectedDomainFilter !== "")
+                if(selectedDomainFilter === el.domain)
+                    return true;
+            return elementToFilter;
+        }
     });
 
     return (
         <div className="container-fluid ">
-            <div className="row d-flex" id="filter">
                 <div id="filter-tag" className="d-flex justify-content-start">
                     <div className="d-flex justify-content-center flex-column">
                         <img
@@ -88,7 +92,7 @@ export const Dashboard: React.FC = () => {
                         </Dropdown.Toggle>
                         <Dropdown.Menu className="dropdown-menu">
                             {DomainList.map((domain) => (
-                                <Dropdown.Item onClick={() => handleClickDomainFilter(domain)}>
+                                <Dropdown.Item className="se" onClick={() => handleClickDomainFilter(domain)}>
                                     {domain}
                                 </Dropdown.Item>
                             ))}
@@ -114,7 +118,6 @@ export const Dashboard: React.FC = () => {
                             </Button>
                         </Dropdown.Menu>
                     </Dropdown>
-                </div>
             </div>
             <div className="row">
                 <CardGroup className="col left-col">
