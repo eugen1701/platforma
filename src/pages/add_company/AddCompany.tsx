@@ -8,8 +8,10 @@ import {
   Image,
 } from "react-bootstrap";
 import { addDoc, collection } from "firebase/firestore";
-import { db } from "../../firebase";
+import {db, storage} from "../../firebase";
 import { useNavigate } from "react-router-dom";
+import {getAuth} from "firebase/auth";
+import {ref, uploadBytes} from "firebase/storage";
 
 export const AddCompany: React.FC = () => {
   const titleRef = useRef<HTMLInputElement | null>(null);
@@ -31,16 +33,22 @@ export const AddCompany: React.FC = () => {
       alert("Too short company name!");
       return false;
     }
-    if( noEmployee<0 || noEmployee > 99999999){
-        alert("This number of employees is impossible");
-        return false;
+    if (noEmployee < 0 || noEmployee > 99999999) {
+      alert("This number of employees is impossible");
+      return false;
     }
-    if(location === ""){
-        alert("Add a proper location");
-        return false;
+    if (location === "") {
+      alert("Add a proper location");
+      return false;
     }
     return true;
   };
+
+  const uploadImage = async (key:string) => {
+    if(image === null) return;
+    const imgRef = ref(storage, `logos/${key}`);
+    await uploadBytes(imgRef, image);
+  }
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -54,14 +62,19 @@ export const AddCompany: React.FC = () => {
         name: title,
         noEmployee: noEmployee,
         location: location,
+        manager: getAuth().currentUser?.uid,
       })
         .then((response) => {
+          const keyDoc = response.id;
+          uploadImage(keyDoc);
           alert(`The ${title} company is added!`);
           console.log(response);
         })
         .catch((error) => {
           console.log(error);
         });
+
+
 
       navigate("/create-offer");
     }
@@ -76,12 +89,12 @@ export const AddCompany: React.FC = () => {
         </FormGroup>
         <FormGroup>
           <FormLabel>What is the logo of your company?</FormLabel>
-          <FormControl type="file" onChange={imageHandler}/>
+          <FormControl type="file" onChange={imageHandler} />
         </FormGroup>
         {image ? (
           <FormGroup>
             <FormLabel>The current logo is:</FormLabel>
-              <Image src={URL.createObjectURL(image)} alt="logoCompany" />
+            <Image src={URL.createObjectURL(image)} alt="logoCompany" />
           </FormGroup>
         ) : (
           <></>

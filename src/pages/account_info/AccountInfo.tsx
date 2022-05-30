@@ -17,11 +17,9 @@ export const AccountInfo:React.FC = () => {
             try{
                 const querySnapShot = await getDocs(q);
                 querySnapShot.forEach(doc => {
-                    console.log(doc.data().type);
                     setUserType(doc.data().type);
                     let date = new Date(doc.data().createdAt.seconds*1000);
                     let stringDate = date.toLocaleDateString();
-                    console.log(stringDate)
                     setStartDate(stringDate);
                 })
             }catch (err) {
