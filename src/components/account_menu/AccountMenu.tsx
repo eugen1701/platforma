@@ -46,7 +46,7 @@ export const AccountMenu: React.FC = () => {
                   aria-labelledby="dropdownMenuButton"
               >
                 <Dropdown.Item href="#" className="dropdown-item">
-                  Favorites
+                  Favorites {/*TODO: If it is an employer it should show the manager offers instead of favorites*/}
                 </Dropdown.Item>
                 <Dropdown.Item href="account-info" className="dropdown-item text-black text-bold" onClick={navigateAccountInfo}>
                   Info account

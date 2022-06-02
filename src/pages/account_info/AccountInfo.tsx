@@ -12,7 +12,7 @@ export const AccountInfo:React.FC = () => {
     useEffect(() => {
         const getData = async () => {
             const userCollectionRef = collection(db, "users");
-            console.log(user?.uid)
+            // console.log(user?.uid)
             const q = query(userCollectionRef, where("uid", "==", user?.uid));
             try{
                 const querySnapShot = await getDocs(q);

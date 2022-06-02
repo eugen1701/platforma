@@ -45,6 +45,8 @@ export const Dashboard: React.FC = () => {
                     location: docData.location ?? '',
                     company: docData.company ?? '',
                     salary: docData.salary ?? '',
+                    companyId:docData.companyId ?? '',
+                    managerId:docData.managerId ?? ''
                 }
             })
 
@@ -121,9 +123,10 @@ export const Dashboard: React.FC = () => {
             </div>
             <div className="row">
                 <CardGroup className="col left-col">
-                    {filteredData.map((of) => (
+                    {filteredData.map((of, i) => (
                         <div onClick={() => setSelectedCard(of)}>
                             <OfferCard
+                                key={i}
                                 title={of.title}
                                 description={of.description}
                                 company={of.company}
@@ -131,6 +134,8 @@ export const Dashboard: React.FC = () => {
                                 urlLogo={of.urlLogo}
                                 location={of.location}
                                 domain={of.domain}
+                                managerId={of.managerId}
+                                companyId={of.companyId}
                             />
                         </div>
                     ))}
@@ -144,6 +149,8 @@ export const Dashboard: React.FC = () => {
                         urlLogo={selectedCard?.urlLogo}
                         location={selectedCard?.location}
                         domain={selectedCard?.domain}
+                        managerId={selectedCard?.managerId}
+                        companyId={selectedCard?.companyId}
                     />
                 </div>
             </div>

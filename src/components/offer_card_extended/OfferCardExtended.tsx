@@ -26,7 +26,7 @@ export const OfferCardExtended: React.FC<OfferCardInterface> = (props) => {
                   <div className="d-flex form-p"><p className="text-bold ">Domain:</p><p>{props.domain}</p></div>
                   <div className="d-flex form-p"><p className="text-bold ">Company:</p><p>{props.company}</p></div>
                 </div>
-                <div className="d-flex flex-column justify-content-center"><Button variant="info" onClick={() => navigation("/messages")}>Apply</Button></div>
+                <div className="d-flex flex-column justify-content-center"><Button variant="info" onClick={() => {navigation(`/messages?to=${props.managerId}`)}}>Apply</Button></div>
               </div>
             </div>
             <Card.Text>{props.description}</Card.Text>

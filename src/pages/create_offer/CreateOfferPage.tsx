@@ -18,6 +18,7 @@ import { addDoc, collection, getDocs, query, where } from "firebase/firestore";
 import "./CreateOfferPage.scss";
 import { getAuth } from "firebase/auth";
 import { CompanyProps } from "../../utils/interfaces/CompanyProps";
+import {useNavigate} from "react-router-dom";
 
 export const CreateOfferPage: React.FC = () => {
   const [title, setTitle] = useState("");
@@ -29,6 +30,7 @@ export const CreateOfferPage: React.FC = () => {
   const locationRef = useRef<HTMLInputElement | null>(null);
   const [imageUpload, setImageUpload] = useState<File | null>(null);
   const descriptionRef = useRef<HTMLTextAreaElement | null>(null);
+  const navigator = useNavigate();
 
   const uploadImage = (key: string) => {
     if(!useLogo){
@@ -63,7 +65,9 @@ export const CreateOfferPage: React.FC = () => {
       description: description,
       salary: salary,
       location: location,
-      headMasterURL
+      headMasterURL,
+      company: company?.name,
+      companyId: company?.id
     })
       .then((response) => {
         const keyDoc = response.id;
@@ -71,6 +75,7 @@ export const CreateOfferPage: React.FC = () => {
         console.log(response);
       })
       .catch((error) => console.log(error.message));
+    navigator("/dashboard") //TODO: redirect to manage offers
   };
 
   useEffect(() => {
@@ -96,6 +101,7 @@ export const CreateOfferPage: React.FC = () => {
 
         return {
           name: docData.name,
+          id:doc.id,
           location: docData.location ?? "",
           noEmployees: docData.noEmployee ?? "",
           manager: docData.manager,
