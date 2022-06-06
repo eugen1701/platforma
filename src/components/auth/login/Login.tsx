@@ -1,4 +1,4 @@
-import React, {FormEvent, useEffect, useRef, useState} from "react";
+import React, {FormEvent, useRef, useState} from "react";
 import "./Login.scss";
 import {Form, Button, Card, Alert} from "react-bootstrap";
 import { Logo } from "../../logo/Logo";
@@ -7,12 +7,13 @@ import {Link, useNavigate} from "react-router-dom";
 import {updateDoc, doc} from "firebase/firestore";
 import {db} from "../../../firebase";
 
+
 export const Login: React.FC = () => {
   const emailRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
-  const [error, setError] = useState("");
-
+  const [error, setError] = useState<null | string>(null);
   let navigate = useNavigate();
+
   const routeChange = () => {
     let path = "/";
     navigate(path);
@@ -35,9 +36,12 @@ export const Login: React.FC = () => {
     }
 
     try{
-    const result = await signInWithEmailAndPassword(getAuth(), email, password);
-    await updateDoc(doc(db, "users", result.user.uid), {isOnline: true});
-    routeChange();
+    const result = await signInWithEmailAndPassword(getAuth(), email, password).then((result) => {
+       updateDoc(doc(db, "users", result.user.uid), {isOnline: true});
+        routeChange();
+    }, (error) => {
+      setError("User not found!")
+    })
     } catch (err) {
       console.log(err);
      // console.log(err);

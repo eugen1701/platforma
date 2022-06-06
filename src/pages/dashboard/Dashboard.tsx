@@ -1,14 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
 import "./Dashboard.scss";
 import { OfferCard } from "../../components/offer_card/OfferCard";
 import { OfferCardExtended } from "../../components/offer_card_extended/OfferCardExtended";
 import { Button, CardGroup, Dropdown, Form } from "react-bootstrap";
 import { collection, getDocs } from "firebase/firestore";
-import { ref, getDownloadURL } from "firebase/storage";
 import { db } from "../../firebase";
 import { DomainList } from "../../utils/DomainList";
-import { storage } from "../../firebase";
 import { OfferCardInterface} from "../../utils/interfaces/OfferCardInterface";
 
 export const Dashboard: React.FC = () => {
@@ -22,18 +19,6 @@ export const Dashboard: React.FC = () => {
             const jobOffersCollectionRef = collection(db, "jobOffers");
             const querySnapShot = await getDocs(jobOffersCollectionRef);
 
-            const documentUrlPromises = querySnapShot.docs.map(doc => {
-                return getDownloadURL(ref(storage, `images/${doc.id}`))
-                    .then((url) => {
-                        return {
-                            id: doc.id,
-                            url
-                        }
-                    })
-            })
-
-            const documentUrls = await Promise.all(documentUrlPromises)
-
             const loadedData: OfferCardInterface[] = querySnapShot.docs.map(doc => {
                 const docData = doc.data()
 
@@ -41,12 +26,13 @@ export const Dashboard: React.FC = () => {
                     title: docData.title,
                     description: docData.description ?? '',
                     domain: docData.domain ?? '',
-                    urlLogo: documentUrls.find(e => e.id === doc.id)?.url ?? '',
+                    headMasterUrl: docData.headMasterURL ?? "nu e ok",
                     location: docData.location ?? '',
                     company: docData.company ?? '',
                     salary: docData.salary ?? '',
                     companyId:docData.companyId ?? '',
-                    managerId:docData.managerId ?? ''
+                    managerId:docData.managerId ?? '',
+                    setSelectedCard:setSelectedCard,
                 }
             })
 
@@ -93,8 +79,8 @@ export const Dashboard: React.FC = () => {
                             Domain
                         </Dropdown.Toggle>
                         <Dropdown.Menu className="dropdown-menu">
-                            {DomainList.map((domain) => (
-                                <Dropdown.Item className="se" onClick={() => handleClickDomainFilter(domain)}>
+                            {DomainList.map((domain, index) => (
+                                <Dropdown.Item key={index} className="se" onClick={() => handleClickDomainFilter(domain)}>
                                     {domain}
                                 </Dropdown.Item>
                             ))}
@@ -131,11 +117,12 @@ export const Dashboard: React.FC = () => {
                                 description={of.description}
                                 company={of.company}
                                 salary={of.salary}
-                                urlLogo={of.urlLogo}
+                                headMasterUrl={of.headMasterUrl}
                                 location={of.location}
                                 domain={of.domain}
                                 managerId={of.managerId}
                                 companyId={of.companyId}
+                                setSelectedCard={setSelectedCard}
                             />
                         </div>
                     ))}
@@ -146,11 +133,12 @@ export const Dashboard: React.FC = () => {
                         description={selectedCard?.description}
                         company={selectedCard?.company}
                         salary={selectedCard?.salary}
-                        urlLogo={selectedCard?.urlLogo}
+                        headMasterUrl={selectedCard?.headMasterUrl}
                         location={selectedCard?.location}
                         domain={selectedCard?.domain}
                         managerId={selectedCard?.managerId}
                         companyId={selectedCard?.companyId}
+                        setSelectedCard={setSelectedCard}
                     />
                 </div>
             </div>

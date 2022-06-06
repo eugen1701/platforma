@@ -11,14 +11,23 @@ import {
   Image,
   InputGroup,
 } from "react-bootstrap";
-import { DomainList } from "../../utils/DomainList";
 import { storage, db } from "../../firebase";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
-import { addDoc, collection, getDocs, query, where } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  doc,
+  getDocs,
+  query,
+  updateDoc,
+  where,
+} from "firebase/firestore";
 import "./CreateOfferPage.scss";
 import { getAuth } from "firebase/auth";
 import { CompanyProps } from "../../utils/interfaces/CompanyProps";
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { DropdownButtonCompanies } from "../../components/offer_edit/DropdownButtonCompanies";
+import { DropdownButtonDomains } from "../../components/offer_edit/DropdownButtonDomains";
 
 export const CreateOfferPage: React.FC = () => {
   const [title, setTitle] = useState("");
@@ -32,11 +41,15 @@ export const CreateOfferPage: React.FC = () => {
   const descriptionRef = useRef<HTMLTextAreaElement | null>(null);
   const navigator = useNavigate();
 
-  const uploadImage = (key: string) => {
-    if(!useLogo){
+  const uploadImage = async (key: string, docId: string) => {
+    if (!useLogo) {
       if (imageUpload == null) return;
       const imageRef = ref(storage, `images/${key}`);
-      uploadBytes(imageRef, imageUpload).then(() => alert("image uploaded"));
+      await uploadBytes(imageRef, imageUpload).then((r) => {
+        alert("image uploaded with link" + r);
+        getDownloadURL(r.ref).then((url)=> {console.log("url is : " + url + "\ndocId is: " +docId);updateDoc(doc(db, "jobOffers", docId!), { headMasterURL: url });})
+
+      });
     }
   };
   const fileChangedHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -53,11 +66,6 @@ export const CreateOfferPage: React.FC = () => {
     const salary = salaryRef.current?.value;
     const location = locationRef.current?.value;
 
-    let headMasterURL = "img_in_storage";
-    if(useLogo) {
-      headMasterURL = useLogo;
-    }
-
     const jobOfferCollRef = collection(db, "jobOffers");
     addDoc(jobOfferCollRef, {
       title: title,
@@ -65,17 +73,18 @@ export const CreateOfferPage: React.FC = () => {
       description: description,
       salary: salary,
       location: location,
-      headMasterURL,
+      headMasterURL:useLogo,
       company: company?.name,
-      companyId: company?.id
+      companyId: company?.id,
+      managerId: company?.manager,
     })
       .then((response) => {
         const keyDoc = response.id;
-        if(!useLogo)uploadImage(keyDoc);
+        if (!useLogo) uploadImage(keyDoc, response.id).then();
         console.log(response);
       })
       .catch((error) => console.log(error.message));
-    navigator("/dashboard") //TODO: redirect to manage offers
+    navigator("/dashboard"); //TODO: redirect to manage offers
   };
 
   useEffect(() => {
@@ -101,7 +110,7 @@ export const CreateOfferPage: React.FC = () => {
 
         return {
           name: docData.name,
-          id:doc.id,
+          id: doc.id,
           location: docData.location ?? "",
           noEmployees: docData.noEmployee ?? "",
           manager: docData.manager,
@@ -116,27 +125,25 @@ export const CreateOfferPage: React.FC = () => {
   }, []);
 
   const handleUseLogo = () => {
-    if(company?.logoUrl){
+    if (company?.logoUrl) {
       setUseLogo(company?.logoUrl!);
       let inputField = document.getElementById("inputHeadMasterJobOffer")!;
       // inputField.setAttribute("value", "");
-      console.log("aiciiiii")
-    }
-    else {
-      alert("There is no logo for the chosen company :(")
+      console.log("aiciiiii");
+    } else {
+      alert("There is no logo for the chosen company :(");
       return;
     }
+  };
 
-  }
-
-  const getSrcImgHeadMasterJobOffer = () =>{
-    if(useLogo)return useLogo;
-    if(imageUpload){
+  const getSrcImgHeadMasterJobOffer = () => {
+    if (useLogo) return useLogo;
+    if (imageUpload) {
       let image = document.getElementById("previewJobImage")!;
       image.setAttribute("src", URL.createObjectURL(imageUpload));
     }
     return "https://image.shutterstock.com/image-vector/abstract-wave-logo-sample-vector-260nw-392139418.jpg";
-  }
+  };
 
   return (
     <div>
@@ -152,38 +159,45 @@ export const CreateOfferPage: React.FC = () => {
         <FormGroup>
           <FormLabel>Company</FormLabel>
 
-            <InputGroup>
-              <DropdownButton title="Company" variant="outline-secondary">
-                {companies?.map((c) => (
-                  <Dropdown.Item onClick={() => setCompany(c)}>
-                    {c.name}
-                  </Dropdown.Item>
-                ))}
-              </DropdownButton>
-              <FormControl value={company?.name}
-                           aria-label="Text input with dropdown button"
-                           disabled={true}/>
-            </InputGroup>
-            <Form.Text className="text-muted">Your default company is selected by default</Form.Text>
-
+          {/*<InputGroup>*/}
+          {/*  <DropdownButton title="Company" variant="outline-secondary">*/}
+          {/*    {companies?.map((c, index) => (*/}
+          {/*      <Dropdown.Item key={index} onClick={() => setCompany(c)}>*/}
+          {/*        {c.name}*/}
+          {/*      </Dropdown.Item>*/}
+          {/*    ))}*/}
+          {/*  </DropdownButton>*/}
+          {/*  <FormControl value={company?.name}*/}
+          {/*               aria-label="Text input with dropdown button"*/}
+          {/*               disabled={true}/>*/}
+          {/*</InputGroup>*/}
+          <DropdownButtonCompanies
+            companies={companies}
+            setCompany={setCompany}
+            company={company}
+          />
+          <Form.Text className="text-muted">
+            Your default company is selected by default
+          </Form.Text>
         </FormGroup>
         <FormGroup>
           <FormLabel for="jobDomain">Job Domain</FormLabel>
           <div className="d-flex">
-            <InputGroup>
-              <DropdownButton title="Domain" variant="outline-secondary">
-                {DomainList.map((domain) => (
-                  <Dropdown.Item onClick={() => setDomain(domain)}>
-                    {domain}
-                  </Dropdown.Item>
-                ))}
-              </DropdownButton>
-              <FormControl
-                placeholder={domain}
-                aria-label="Text input with dropdown button"
-                disabled={true}
-              />
-            </InputGroup>
+            {/*<InputGroup>*/}
+            {/*  <DropdownButton title="Domain" variant="outline-secondary">*/}
+            {/*    {DomainList.map((domain, index) => (*/}
+            {/*      <Dropdown.Item key={index} onClick={() => setDomain(domain)}>*/}
+            {/*        {domain}*/}
+            {/*      </Dropdown.Item>*/}
+            {/*    ))}*/}
+            {/*  </DropdownButton>*/}
+            {/*  <FormControl*/}
+            {/*    placeholder={domain}*/}
+            {/*    aria-label="Text input with dropdown button"*/}
+            {/*    disabled={true}*/}
+            {/*  />*/}
+            {/*</InputGroup>*/}
+            <DropdownButtonDomains setDomain={setDomain} domain={domain} />
           </div>
         </FormGroup>
         <FormGroup>
@@ -198,18 +212,32 @@ export const CreateOfferPage: React.FC = () => {
             Select the image to represent the job or your company
           </FormLabel>
           <br />
-          <FormControl id="inputHeadMasterJobOffer" type="file" onChange={fileChangedHandler}/>
+          <FormControl
+            id="inputHeadMasterJobOffer"
+            type="file"
+            onChange={fileChangedHandler}
+          />
           <div className="d-flex justify-content-start" id="setImgRow">
-            <div className="d-flex flex-column justify-content-center"><FormLabel>The headmaster for your job offer: </FormLabel></div>
-            <div><Image
+            <div className="d-flex flex-column justify-content-center">
+              <FormLabel>The headmaster for your job offer: </FormLabel>
+            </div>
+            <div>
+              <Image
                 id="previewJobImage"
                 src={getSrcImgHeadMasterJobOffer()}
                 alt="preview image"
-            /></div>
-            <div className="d-flex flex-column justify-content-center"><h6>or</h6></div>
+              />
+            </div>
             <div className="d-flex flex-column justify-content-center">
-              <div className="d-flex justify-content-start"><Button onClick={handleUseLogo}>Use logo</Button></div>
-              <FormText className="text-muted">Use the logo of the company as the headmaster for your job offer</FormText>
+              <h6>or</h6>
+            </div>
+            <div className="d-flex flex-column justify-content-center">
+              <div className="d-flex justify-content-start">
+                <Button onClick={handleUseLogo}>Use logo</Button>
+              </div>
+              <FormText className="text-muted">
+                Use the logo of the company as the headmaster for your job offer
+              </FormText>
             </div>
           </div>
         </FormGroup>

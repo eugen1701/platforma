@@ -15,7 +15,7 @@ import {
 } from "react-bootstrap";
 import { Logo } from "../../logo/Logo";
 import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
-import { useNavigate } from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import { db } from "../../../firebase";
 import { setDoc, collection, doc, Timestamp } from "firebase/firestore";
 
@@ -75,6 +75,7 @@ export const Signup: React.FC = () => {
     await setDoc(docRef, { uid: uid, type: userKind, email, isOnline: true, createdAt: Timestamp.fromDate(new Date())});
 
     if(userKind === "employer") navigate("/add-company");
+    if(userKind === "normal")navigate("/account-info");
     else navigate("/dashboard")
   };
 
@@ -163,11 +164,7 @@ export const Signup: React.FC = () => {
                   {error}
                 </Alert>
               )}
-              {/*<h5>*/}
-              {/*  From here the user should be redirected to a page where he can*/}
-              {/*  fill in the personal information in order to make the*/}
-              {/*  recomandation possible*/}
-              {/*</h5>*/}
+            <p>Already have an account? Go <Link to="/login">login</Link>!</p>
             </div>
           </Card>
         </div>

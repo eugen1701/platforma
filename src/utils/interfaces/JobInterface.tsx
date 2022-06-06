@@ -1,3 +1,5 @@
+import {CompanyProps} from "./CompanyProps";
+
 export interface JobInterface {
     title: string;
     company?: string;
@@ -5,7 +7,9 @@ export interface JobInterface {
     managerId?:string;
     domain?: string;
     description?: string;
-    urlLogo?: string;
+    headMasterUrl?: string;
     salary?: string;
     location?: string;
+    id?:string;
+    companyObj?:CompanyProps;
 }

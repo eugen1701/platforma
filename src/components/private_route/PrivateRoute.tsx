@@ -25,7 +25,7 @@ export const PrivateRoute: React.FC<PrivateRouteProps> = (props) => {
   if (props.path === "/account-info" || props.path === "/messages")
     return user ? <Outlet /> : <Navigate to="/login" />;
   else if (userData)
-    if (props.path === "/create-offer" || props.path === "/add-company") {
+    if (props.path === "/create-offer" || props.path === "/add-company" || props.path === "/manage-offers") {
       console.log("haideeeee " + userData?.type);
       return userData?.type === "employer" ? (
         <Outlet />

@@ -7,7 +7,7 @@ import {
   FormLabel,
   Image,
 } from "react-bootstrap";
-import { addDoc, collection } from "firebase/firestore";
+import {addDoc, collection, updateDoc} from "firebase/firestore";
 import {db, storage} from "../../firebase";
 import { useNavigate } from "react-router-dom";
 import {getAuth} from "firebase/auth";
@@ -63,10 +63,12 @@ export const AddCompany: React.FC = () => {
         noEmployee: noEmployee,
         location: location,
         manager: getAuth().currentUser?.uid,
+        managerEmail: getAuth().currentUser?.email
       })
         .then((response) => {
           const keyDoc = response.id;
-          uploadImage(keyDoc);
+          uploadImage(keyDoc).then();
+          updateDoc(response, {"id": response.id}).then();
           alert(`The ${title} company is added!`);
           console.log(response);
         })

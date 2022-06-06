@@ -88,7 +88,6 @@ export const Header: React.FC = () => {
 
       <div id="header__right-side">
         <nav>
-          {/*TODO: Hide when logged in*/}
           <ul id="header__nav-buttons" className="ul flex-pull-right">
             {isAuthenticated ? (
               <></>
