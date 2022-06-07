@@ -50,7 +50,7 @@ const App: React.FC = () => {
           <br />
           <br />
           <br />
-          {/*<Footer/>*/}
+          {/*<Footer/> TODO: solve the bug with the footer*/}
         </div>
       </AuthProvider>
     </BrowserRouter>

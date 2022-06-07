@@ -36,7 +36,7 @@ export const MessagesPage: React.FC = () => {
   const senderId = getAuth().currentUser?.uid!;
   const receiver = useMemo(() => searchParams.get("to"), [searchParams]);
   const [selectedUser, setSelectedUser] = useState<string | null>(null);
-  const [inboxList, setInboxList] = useState<UserCardProps[] | []>([]);
+  const [inboxList, setInboxList] = useState<UserCardProps[] | []>([]); //TODO: deal with files and images
 
   const [messages, setMessages] = useState<MessageProps[] | []>([]);
   const getMessagesSelectedCompany = async () => {
@@ -99,7 +99,7 @@ export const MessagesPage: React.FC = () => {
       from: senderId,
       to: receiver,
       createdAt: Timestamp.fromDate(new Date()),
-      media: url || "",
+      media: url ?? "",
     }).then(() => {
       updateDoc(doc(db, "users", senderId!), {
         appliedToManager: arrayUnion(receiver),
@@ -108,9 +108,10 @@ export const MessagesPage: React.FC = () => {
     setText("");
   };
   return (
-    <div className="d-flex justify-content-start home_container">
+    <div className="d-flex justify-content-center">
       <MessageInbox setSelectedCard={setSelectedUser}/>
       <div className="d-flex flex-column justify-content-start">
+        <div><h3>MicroFocus</h3></div><br/>{/*TODO: set the proper name*/}
         <ChatBox currentUserId={senderId} targetUserId={receiver} />
         <MessageForm
           handleSubmit={handleSubmit}

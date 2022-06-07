@@ -121,7 +121,7 @@ export const CreateOfferPage: React.FC = () => {
       setCompany(loadedCompanies[0]);
       setCompanies(loadedCompanies);
     };
-    getCompanies();
+    getCompanies().then();
   }, []);
 
   const handleUseLogo = () => {
@@ -158,19 +158,6 @@ export const CreateOfferPage: React.FC = () => {
         </FormGroup>
         <FormGroup>
           <FormLabel>Company</FormLabel>
-
-          {/*<InputGroup>*/}
-          {/*  <DropdownButton title="Company" variant="outline-secondary">*/}
-          {/*    {companies?.map((c, index) => (*/}
-          {/*      <Dropdown.Item key={index} onClick={() => setCompany(c)}>*/}
-          {/*        {c.name}*/}
-          {/*      </Dropdown.Item>*/}
-          {/*    ))}*/}
-          {/*  </DropdownButton>*/}
-          {/*  <FormControl value={company?.name}*/}
-          {/*               aria-label="Text input with dropdown button"*/}
-          {/*               disabled={true}/>*/}
-          {/*</InputGroup>*/}
           <DropdownButtonCompanies
             companies={companies}
             setCompany={setCompany}
@@ -183,20 +170,6 @@ export const CreateOfferPage: React.FC = () => {
         <FormGroup>
           <FormLabel for="jobDomain">Job Domain</FormLabel>
           <div className="d-flex">
-            {/*<InputGroup>*/}
-            {/*  <DropdownButton title="Domain" variant="outline-secondary">*/}
-            {/*    {DomainList.map((domain, index) => (*/}
-            {/*      <Dropdown.Item key={index} onClick={() => setDomain(domain)}>*/}
-            {/*        {domain}*/}
-            {/*      </Dropdown.Item>*/}
-            {/*    ))}*/}
-            {/*  </DropdownButton>*/}
-            {/*  <FormControl*/}
-            {/*    placeholder={domain}*/}
-            {/*    aria-label="Text input with dropdown button"*/}
-            {/*    disabled={true}*/}
-            {/*  />*/}
-            {/*</InputGroup>*/}
             <DropdownButtonDomains setDomain={setDomain} domain={domain} />
           </div>
         </FormGroup>
@@ -204,7 +177,7 @@ export const CreateOfferPage: React.FC = () => {
           <FormLabel for="jobSalaryRange">Salary Range</FormLabel>
           <FormControl placeholder="Salary Range" ref={salaryRef} />
           <FormText className="text-muted">
-            You can set it private or give a motivational range
+            For example: 30k - 40k / year
           </FormText>
         </FormGroup>
         <FormGroup>

@@ -51,7 +51,7 @@ export const ManageOffers: React.FC = () => {
   }, []);
   return (
     <div className="">
-      <h1>Manage your company</h1>
+      <h1>Manage your job offers</h1>
       <Button onClick={() => navigation("/create-offer")}>Add job offer</Button>
       <div className="d-flex">
         <ListCards jobs={jobs}/>

@@ -75,19 +75,16 @@ export const AddCompany: React.FC = () => {
         .catch((error) => {
           console.log(error);
         });
-
-
-
       navigate("/create-offer");
     }
   };
   return (
     <div>
-      <h1>Let's add your first company!</h1>
+      <h1>Let's add your company!</h1>
       <Form onSubmit={handleSubmit}>
         <FormGroup>
           <FormLabel>What is the title of your company?</FormLabel>
-          <FormControl placeholder="Grate company" ref={titleRef} />
+          <FormControl placeholder="Company title" ref={titleRef} />
         </FormGroup>
         <FormGroup>
           <FormLabel>What is the logo of your company?</FormLabel>
@@ -113,7 +110,7 @@ export const AddCompany: React.FC = () => {
         </FormGroup>
         <FormGroup>
           <Button type="submit" variant="primary btn-block">
-            Let's add job offers
+            Add company
           </Button>
         </FormGroup>
       </Form>

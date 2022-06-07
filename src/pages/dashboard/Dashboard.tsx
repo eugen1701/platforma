@@ -106,6 +106,16 @@ export const Dashboard: React.FC = () => {
                             </Button>
                         </Dropdown.Menu>
                     </Dropdown>
+                    <Dropdown>
+                        <Dropdown.Toggle className="btn btn-secondary dropdown-toggle">
+                            Salary range
+                        </Dropdown.Toggle>
+                    </Dropdown>
+                    <Dropdown>
+                        <Dropdown.Toggle className="btn btn-secondary dropdown-toggle">
+                            Job location
+                        </Dropdown.Toggle>
+                    </Dropdown>
             </div>
             <div className="row">
                 <CardGroup className="col left-col">

@@ -3,7 +3,7 @@
 This application is meant to connect employers with future employees and to facilitate the process of finding a job.
 
 ### Bachelor thesis at Babes-Bolyai University of Cluj-Napoca
-This project represent the practical part of my bachelor thesis and is developed using TypeScript, React and Firebase.
+This project represent the practical part of my bachelor thesis and is developed using TypeScript, React, Bootstrap and Firebase.
 
 
 ### Getting Started with React App

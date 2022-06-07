@@ -43,7 +43,7 @@ export const ChatBox: React.FC<ChatBoxProps> = ({ currentUserId, targetUserId })
   }, [currentUserId, targetUserId]);
 
   return (
-    <div className="d-flex flex-column justify-content-start messages">
+    <div className="d-flex flex-column justify-content-start messages" style={{maxHeight:"650px"}}> {/*TODO: set the proper max height*/}
       {messages.map((message, index) => {
         return (
           <Message

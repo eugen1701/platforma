@@ -23,9 +23,14 @@ export const AccountMenu: React.FC = () => {
   }
 
   const userType = useMemo(()=>{
-    let type;
-   getDoc(doc(db, "users", currentUser?.uid!)).then(r=>{type = r.data()?.type});
-    return type;
+    if(currentUser){
+      let type;
+      getDoc(doc(db, "users", currentUser?.uid!)).then((r) => {
+        type = r.data()?.type;
+      });
+      return type;
+    }
+    return "normal"
   }, [currentUser])
   return (
     <div id="account-icon-div">

@@ -36,6 +36,7 @@ export const OfferEdit: React.FC<OfferEditProps> = (props) => {
   const [domain, setDomain] = useState<string>(props.domain ?? "");
   const [company, setCompany] = useState<CompanyProps | null>(null);
   const [companies, setCompanies] = useState<CompanyProps[]>([]);
+  const [imgUrl, setImgUrl] = useState<string>("");
   useEffect(() => {
     const q = query(
       collection(db, "companies"),
@@ -60,6 +61,7 @@ export const OfferEdit: React.FC<OfferEditProps> = (props) => {
       setLocation(props.location ?? "");
       setSalary(props.salary ?? "");
       setDescription(props.description ?? "");
+      setImgUrl(props.headMasterUrl ?? "")
       setId(props.id ?? "n-are");
     });
   }, [props]);
@@ -86,6 +88,7 @@ export const OfferEdit: React.FC<OfferEditProps> = (props) => {
   };
   return (
     <div className="w-100">
+      <div className=""><img src={imgUrl} alt="headmaster_jobOffer"/>{/*TODO: make this image to be able to be edited*/}</div>
       <Form onSubmit={handleSubmitUpdate}>
         <FormGroup>
           <FormLabel>Title</FormLabel>
@@ -123,6 +126,7 @@ export const OfferEdit: React.FC<OfferEditProps> = (props) => {
           <FormLabel>Description</FormLabel>
           <FormControl as="textarea" value={description} onChange={event => setDescription(event.target.value)}/>
         </FormGroup>
+        <br/>
         <ButtonGroup>
           <Button variant="success" type="submit">
             Update

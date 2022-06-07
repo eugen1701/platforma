@@ -14,7 +14,7 @@ export const OfferCard: React.FC<OfferCardInterface> = (props) => {
     }, [])
   return (
     <Card
-      className="shadow"
+      className=""
       onClick={() => {
         console.log(props);
         props.setSelectedCard(props);

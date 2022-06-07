@@ -73,11 +73,13 @@ export const UserCard: React.FC<UserCardProps> = ({ user: { userId, type }, ...r
               <div>
                 <h5>{subName}</h5>
               </div>
-              <div
-                className={`user_status ${
-                  isReceiverOnline ? "online" : "offline"
-                }`}
-              ></div>
+                <div className="d-flex justify-content-center">
+                    <div
+                        className={`user_status ${
+                            isReceiverOnline ? "online" : "offline"
+                        }`}
+                    ></div>
+                </div>
             </div>
           </div>
         </Card.Body>
