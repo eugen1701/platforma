@@ -12,10 +12,10 @@ interface MessageFormProps {
 export const MessageForm:React.FC<MessageFormProps> = (props) => {
     return (<Form onSubmit={props.handleSubmit}>
         <FormGroup>
-            <div className="d-flex justify-content-start"><FormLabel htmlFor="img"><Attachment/></FormLabel>
-                <input type="file" id="img" accept="image/*" style={{display: "none"}} onChange={e => props.setFile(e.target.files![0])}/>
+            <div className="d-flex justify-content-center"><FormLabel htmlFor="img"><Attachment/></FormLabel>
+                <input type="file" id="img" accept="*" style={{display: "none"}} onChange={e => props.setFile(e.target.files![0])}/>
                 <div>
-                    <FormControl placeholder="Enter message" style={{width: "400px"}} value={props.text} onChange={e => props.setText(e.target.value)}/>
+                    <FormControl placeholder="Enter message" style={{width: "600px"}} value={props.text} onChange={e => props.setText(e.target.value)}/>
                 </div>
                 <div>
                     <Button type="submit">Send</Button>

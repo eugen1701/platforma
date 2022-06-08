@@ -8,12 +8,14 @@ import {getDownloadURL, ref} from "firebase/storage";
 export interface UserCardProps {
     user:UsersProps;
     setSelectedUserFunction:(str:string|null) => void;
+    setHeaderInfo:(str:string|null)=>void;
 }
 export const UserCard: React.FC<UserCardProps> = ({ user: { userId, type }, ...rest }) => {
   //TODO:style the page
     const [img, setImg] = useState<string>("");
     const [name, setName] = useState<string>("");
     const [subName, setSubName] = useState<string>("");
+    const [companyId, setCompanyId] = useState("");
     const [userCardId, setUserCardId] = useState<string>("");
   const [isReceiverOnline, setIsReceiverOnline] = useState<boolean>(false);
   useEffect(() => {
@@ -25,6 +27,7 @@ export const UserCard: React.FC<UserCardProps> = ({ user: { userId, type }, ...r
               console.log(snapshot.exists())
               getDownloadURL(ref(storage, `logos/${snapshot.id}`)).then(url => setImg(url)).then(() => console.log("imgg is " + img));
               setName(snapshot.data()?.name!);
+              setCompanyId(userId);
               setSubName(snapshot.data()?.managerEmail!)
               setUserCardId(snapshot.data()?.manager!)
               getDoc(doc(db, "users", snapshot.data()?.manager!)).then(data => setIsReceiverOnline(data.data()?.isOnline!));
@@ -53,8 +56,10 @@ export const UserCard: React.FC<UserCardProps> = ({ user: { userId, type }, ...r
     <div
       onClick={() => {
         rest.setSelectedUserFunction(userCardId);
+        rest.setHeaderInfo(name)
         console.log("setam selecteduser cu " + userCardId);
       }}
+      style={{height: ""}}
     >
       <Card>
         <Card.Body>
@@ -63,7 +68,7 @@ export const UserCard: React.FC<UserCardProps> = ({ user: { userId, type }, ...r
               <CardImg
                 src={img}
                 alt="profileCompany"
-                style={{ maxWidth: "8em" }}
+                style={{ width: "8em" }}
               />
             </div>
             <div className="d-flex flex-column justify-content-start">

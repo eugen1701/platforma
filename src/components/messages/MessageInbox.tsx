@@ -7,8 +7,9 @@ import {db} from "../../firebase";
 export interface UsersProps {
   userId:string;
   type:string;
+  companyId?:string;
 }
-export const MessageInbox: React.FC<{setSelectedCard:(str:string|null)=>void;}> = (props) => {
+export const MessageInbox: React.FC<{setSelectedCard:(str:string|null)=>void; setHeaderInfo:(str:string|null)=>void;}> = (props) => {
   const [users, setUsers] = useState<UsersProps[]>([]);
   useEffect(() => {
     (async () => {
@@ -45,7 +46,7 @@ export const MessageInbox: React.FC<{setSelectedCard:(str:string|null)=>void;}> 
           user={user}
           setSelectedUserFunction={props.setSelectedCard}
           key={index}
-
+          setHeaderInfo={props.setHeaderInfo}
         />
       ))}
     </div>

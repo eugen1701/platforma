@@ -31,35 +31,12 @@ import { ChatBox } from "../../components/messages/ChatBox";
 export const MessagesPage: React.FC = () => {
 
   const [text, setText] = useState("");
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams(); //it keeps the id of the manager/user but not the company
   const [file, setFile] = useState<File | null>(null);
   const senderId = getAuth().currentUser?.uid!;
   const receiver = useMemo(() => searchParams.get("to"), [searchParams]);
   const [selectedUser, setSelectedUser] = useState<string | null>(null);
-  const [inboxList, setInboxList] = useState<UserCardProps[] | []>([]); //TODO: deal with files and images
-
-  const [messages, setMessages] = useState<MessageProps[] | []>([]);
-  const getMessagesSelectedCompany = async () => {
-    const id =
-        senderId! > receiver!
-            ? `${senderId! + receiver!}`
-            : `${receiver! + senderId!}`;
-    const msgRef = collection(db, "messages", id, "chat");
-    const q = query(msgRef, orderBy("createdAt", "asc"));
-
-    onSnapshot(q, (querySnapshot) => {
-      let msg: MessageProps[] = querySnapshot.docs.map((doc) => {
-        const docData = doc.data();
-        return {
-          to: docData.to,
-          from: docData.from,
-          text: docData.text,
-          createdAt: docData.createdAt,
-        };
-      });
-      setMessages(msg);
-    });
-  };
+  const [headerInfo, setHeaderInfo] = useState<string|null>("")
 
   useEffect(() => {
     if (selectedUser !== null) {
@@ -109,9 +86,9 @@ export const MessagesPage: React.FC = () => {
   };
   return (
     <div className="d-flex justify-content-center">
-      <MessageInbox setSelectedCard={setSelectedUser}/>
+      <MessageInbox setSelectedCard={setSelectedUser} setHeaderInfo={setHeaderInfo}/>
       <div className="d-flex flex-column justify-content-start">
-        <div><h3>MicroFocus</h3></div><br/>{/*TODO: set the proper name*/}
+        <div><h3>{headerInfo}</h3></div><br/>{/*TODO: set the proper name*/}
         <ChatBox currentUserId={senderId} targetUserId={receiver} />
         <MessageForm
           handleSubmit={handleSubmit}

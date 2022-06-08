@@ -31,6 +31,7 @@ export const ChatBox: React.FC<ChatBoxProps> = ({ currentUserId, targetUserId })
                   to: docData.to,
                   from: docData.from,
                   text: docData.text,
+                  media:docData.media?? "",
                   createdAt: docData.createdAt,
               };
           });
@@ -43,7 +44,7 @@ export const ChatBox: React.FC<ChatBoxProps> = ({ currentUserId, targetUserId })
   }, [currentUserId, targetUserId]);
 
   return (
-    <div className="d-flex flex-column justify-content-start messages" style={{maxHeight:"650px"}}> {/*TODO: set the proper max height*/}
+    <div className="d-flex flex-column justify-content-start messages" style={{maxHeight:"700px",width: "700px"}}> {/*TODO: set the proper max height*/}
       {messages.map((message, index) => {
         return (
           <Message
@@ -51,6 +52,7 @@ export const ChatBox: React.FC<ChatBoxProps> = ({ currentUserId, targetUserId })
             from={message.from}
             text={message.text}
             to={message.to}
+            media={message.media}
             key={index}
           />
         );
