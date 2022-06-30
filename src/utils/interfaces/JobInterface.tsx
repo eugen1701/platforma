@@ -11,5 +11,6 @@ export interface JobInterface {
     salary?: string;
     location?: string;
     id?:string;
+    imgPath?:string;
     companyObj?:CompanyProps;
 }

@@ -38,6 +38,7 @@ export const ManageOffers: React.FC = () => {
           salary: docData.salary ?? "",
           location: docData.location ?? "",
           id: id ?? "",
+          imgPath: docData.imgPath ?? "",
           setSelectedCard:setSelectedCard,
         };
       });
@@ -65,6 +66,7 @@ export const ManageOffers: React.FC = () => {
                    managerId={selectedCard?.managerId}
                    companyId={selectedCard?.companyId}
                    id={selectedCard?.id}
+                   imgPath={selectedCard?.imgPath}
         />
       </div>
     </div>

@@ -14,7 +14,7 @@ import {
   orderBy,
   arrayUnion,
   onSnapshot,
-  getDoc,
+  getDoc, setDoc,
 } from "firebase/firestore";
 import {
   ref,
@@ -82,11 +82,20 @@ export const MessagesPage: React.FC = () => {
         appliedToManager: arrayUnion(receiver),
       });
     });
+
+    await setDoc(doc(db, "lastMsg", id), {
+      text,
+      from: senderId,
+      to: receiver,
+      createdAt: Timestamp.fromDate(new Date()),
+      media: url ?? "",
+      unread: true,
+    })
     setText("");
   };
   return (
     <div className="d-flex justify-content-center">
-      <MessageInbox setSelectedCard={setSelectedUser} setHeaderInfo={setHeaderInfo}/>
+      <MessageInbox setSelectedCard={setSelectedUser} setHeaderInfo={setHeaderInfo} selectedUserId={receiver!}/>
       <div className="d-flex flex-column justify-content-start">
         <div><h3>{headerInfo}</h3></div><br/>{/*TODO: set the proper name*/}
         <ChatBox currentUserId={senderId} targetUserId={receiver} />

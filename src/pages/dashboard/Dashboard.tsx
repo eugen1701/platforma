@@ -13,6 +13,8 @@ export const Dashboard: React.FC = () => {
     const [selectedCard, setSelectedCard] = useState<OfferCardInterface | null>(null);
     const [selectedDomainFilter, setSelectedDomainFilter] = useState("");
     const [inputTitleFilter, setInputTitleFilter] = useState("");
+    const [inputSalaryRangeFilter, setInputSalaryRangeFilter] = useState("");
+    const [inputLocationFilter, setInputLocationFilter] = useState("");
 
     useEffect(() => {
         const getData = async () => {
@@ -110,17 +112,47 @@ export const Dashboard: React.FC = () => {
                         <Dropdown.Toggle className="btn btn-secondary dropdown-toggle">
                             Salary range
                         </Dropdown.Toggle>
+                        <Dropdown.Menu className="dropdown-menu">
+                            <Form.Control
+                                className="search"
+                                placeholder="Salary range..."
+                                onChange={(e) => {
+                                    return setInputSalaryRangeFilter(e.target.value);
+                                }}
+                            />
+                            <Button className="btn btn-light">
+                                <div className="d-flex">
+                                    <img src="open-iconic/svg/search.svg" alt="search-button" />
+                                    <h6>Search</h6>
+                                </div>
+                            </Button>
+                        </Dropdown.Menu>
                     </Dropdown>
                     <Dropdown>
                         <Dropdown.Toggle className="btn btn-secondary dropdown-toggle">
                             Job location
                         </Dropdown.Toggle>
+                        <Dropdown.Menu className="dropdown-menu">
+                            <Form.Control
+                                className="search"
+                                placeholder="Location..."
+                                onChange={(e) => {
+                                    return setInputLocationFilter(e.target.value);
+                                }}
+                            />
+                            <Button className="btn btn-light">
+                                <div className="d-flex">
+                                    <img src="open-iconic/svg/search.svg" alt="search-button" />
+                                    <h6>Search</h6>
+                                </div>
+                            </Button>
+                        </Dropdown.Menu>
                     </Dropdown>
             </div>
             <div className="row">
                 <CardGroup className="col left-col">
                     {filteredData.map((of, i) => (
-                        <div onClick={() => setSelectedCard(of)}>
+                        <div onClick={() => setSelectedCard(of)} key={i}>
                             <OfferCard
                                 key={i}
                                 title={of.title}

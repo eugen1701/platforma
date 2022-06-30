@@ -9,8 +9,9 @@ export interface UsersProps {
   type:string;
   companyId?:string;
 }
-export const MessageInbox: React.FC<{setSelectedCard:(str:string|null)=>void; setHeaderInfo:(str:string|null)=>void;}> = (props) => {
+export const MessageInbox: React.FC<{setSelectedCard:(str:string|null)=>void; setHeaderInfo:(str:string|null)=>void;selectedUserId:string;}> = (props) => {
   const [users, setUsers] = useState<UsersProps[]>([]);
+  const [companyId, setCompanyId] = useState<string|null>("");
   useEffect(() => {
     (async () => {
       const auth = getAuth();
@@ -47,6 +48,8 @@ export const MessageInbox: React.FC<{setSelectedCard:(str:string|null)=>void; se
           setSelectedUserFunction={props.setSelectedCard}
           key={index}
           setHeaderInfo={props.setHeaderInfo}
+          selectedUser={companyId}
+          setCompanyId={setCompanyId}
         />
       ))}
     </div>

@@ -50,6 +50,7 @@ export const AccountInfo: React.FC = () => {
           setName(doc.data().name ?? null);
           setPhoneNumber(doc.data().phoneNumber ?? "");
           setAvatar(doc.data().avatar ?? null)
+          setAvatarPath(doc.data().avatarPath ?? null);
         });
       } catch (err) {
         console.log(err);

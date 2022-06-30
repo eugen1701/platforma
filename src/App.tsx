@@ -14,8 +14,8 @@ import { Dashboard } from "./pages/dashboard/Dashboard";
 import { ForgotPasswordPage } from "./pages/forgot_password_page/ForgotPasswordPage";
 import { PrivateRoute } from "./components/private_route/PrivateRoute";
 import { MessagesPage } from "./pages/messages_page/MessagesPage";
-import { Footer } from "./components/footer/Footer";
 import { ManageOffers } from "./pages/manage_offers/ManageOffers";
+import {AboutUs} from "./pages/about_us/AboutUs";
 
 const App: React.FC = () => {
   return (
@@ -29,6 +29,7 @@ const App: React.FC = () => {
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/login" element={<AuthPage />} />
               <Route path="/signup" element={<Signup />} />
+              <Route path="/about-us" element={<AboutUs/>}/>
               <Route element={<PrivateRoute path="/account-info" />}>
                 <Route path="/account-info" element={<AccountInfo />} />
               </Route>
@@ -50,7 +51,6 @@ const App: React.FC = () => {
           <br />
           <br />
           <br />
-          {/*<Footer/> TODO: solve the bug with the footer*/}
         </div>
       </AuthProvider>
     </BrowserRouter>

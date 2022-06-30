@@ -47,7 +47,7 @@ export const CreateOfferPage: React.FC = () => {
       const imageRef = ref(storage, `images/${key}`);
       await uploadBytes(imageRef, imageUpload).then((r) => {
         alert("image uploaded with link" + r);
-        getDownloadURL(r.ref).then((url)=> {console.log("url is : " + url + "\ndocId is: " +docId);updateDoc(doc(db, "jobOffers", docId!), { headMasterURL: url });})
+        getDownloadURL(r.ref).then((url)=> {console.log("url is : " + url + "\ndocId is: " +docId);updateDoc(doc(db, "jobOffers", docId!), { headMasterURL: url, imgPath: `images/${docId}`, id: docId });})
 
       });
     }

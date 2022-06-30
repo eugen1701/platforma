@@ -1,4 +1,4 @@
-import React, {useEffect, useMemo} from "react";
+import React, {useEffect, useMemo, useState} from "react";
 import { Dropdown } from "react-bootstrap";
 import {Link, useNavigate} from "react-router-dom";
 import {useAuth} from "../../context/AuthContext";
@@ -9,6 +9,7 @@ import {db} from "../../firebase";
 
 export const AccountMenu: React.FC = () => {
   const currentUser = useAuth();
+  const [userType2, setUserType2] = useState<string>();
   const isAuthenticated = useMemo(() => currentUser !== null, [currentUser]);
   let navigator = useNavigate();
   const logout = async () => {
@@ -27,6 +28,7 @@ export const AccountMenu: React.FC = () => {
       let type;
       getDoc(doc(db, "users", currentUser?.uid!)).then((r) => {
         type = r.data()?.type;
+        setUserType2(type)
       });
       return type;
     }
@@ -56,17 +58,20 @@ export const AccountMenu: React.FC = () => {
             className="dropdown-menu"
             aria-labelledby="dropdownMenuButton"
           >
-            {userType === "normal"?
-              <Dropdown.Item href="favorites" className="dropdown-item">
-                Favorites
-              </Dropdown.Item>:
+            {userType2 === "normal"?
+
+                <></>:
                 <div>
+
               <Dropdown.Item href="add-company">
               Add company
               </Dropdown.Item>
                 <Dropdown.Item href="create-offer">
                   Create job offer
                 </Dropdown.Item>
+                  <Dropdown.Item href="manage-offers">
+                    Manage offers
+                  </Dropdown.Item>
                 </div>
 
             }
@@ -85,7 +90,7 @@ export const AccountMenu: React.FC = () => {
               className="dropdown-item text-black text-bold"
               onClick={logout}
             >
-              <img src="open-iconic/svg/account-logout.svg" /> Sing out
+              <img src="open-iconic/svg/account-logout.svg" /> Log out
             </Dropdown.Item>
           </Dropdown.Menu>
         ) : (
@@ -93,14 +98,14 @@ export const AccountMenu: React.FC = () => {
             className="dropdown-menu"
             aria-labelledby="dropdownMenuButton"
           >
-            <Dropdown.Item className="dropdown-item">
+            <Dropdown.Item className="dropdown-item" href="signup">
               <div className="d-flex justify-content-between">
-                <Link
-                  to="/signup"
-                  className="text-decoration-none text-black text-bold"
-                >
+                {/*<Link*/}
+                {/*  to="/signup"*/}
+                {/*  className="text-decoration-none text-black text-bold"*/}
+                {/*>*/}
                   Sign up
-                </Link>
+                {/*</Link>*/}
                 <img
                   src="open-iconic/svg/check.svg"
                   className="justify-content-center"
@@ -108,14 +113,14 @@ export const AccountMenu: React.FC = () => {
                 />
               </div>
             </Dropdown.Item>
-            <Dropdown.Item className="dropdown-item">
+            <Dropdown.Item className="dropdown-item" href="login">
               <div className="d-flex justify-content-between">
-                <Link
-                  to="/login"
-                  className="text-decoration-none text-black text-bold"
-                >
+                {/*<Link*/}
+                {/*  to="/login"*/}
+                {/*  className="text-decoration-none text-black text-bold"*/}
+                {/*>*/}
                   Login
-                </Link>
+                {/*</Link>*/}
                 <img
                   src="open-iconic/svg/account-login.svg"
                   className="justify-content-center"
