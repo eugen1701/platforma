@@ -16,6 +16,7 @@ import { PrivateRoute } from "./components/private_route/PrivateRoute";
 import { MessagesPage } from "./pages/messages_page/MessagesPage";
 import { ManageOffers } from "./pages/manage_offers/ManageOffers";
 import {AboutUs} from "./pages/about_us/AboutUs";
+import {PdfViewPage} from "./pages/pdf_view_page/PdfViewPage";
 
 const App: React.FC = () => {
   return (

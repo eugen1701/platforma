@@ -107,14 +107,22 @@ export const OfferEdit: React.FC<OfferEditProps> = (props) => {
     }
   }, [imgFile]);
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
     console.log("In delete: \nPropsId: " + props.id!);
-    deleteDoc(doc(db, "jobOffers", props.id!)).then(
-      () => {
-        console.log("delete");
-      },
-      (err) => console.log(err)
-    );
+    try{
+      const confirm = window.confirm("Delete opportunity?");
+      if (confirm) {
+         await deleteDoc(doc(db, "jobOffers", props.id!)).then(
+          () => {
+            console.log("delete");
+          },
+          (err) => console.log(err)
+        );
+
+      }
+    } catch (err){
+      console.log(err);
+    }
   };
 
   const deleteImage = async () => {
@@ -137,7 +145,7 @@ export const OfferEdit: React.FC<OfferEditProps> = (props) => {
   return (
     <div className="w-100">
       <div className="img_container">
-        <img src={imgUrl} alt="headmaster_jobOffer" />
+        <img src={imgUrl} alt="headmaster_jobOffer" style={{maxWidth:"200px", maxHeight: "200px"}}/>
         <div className="overlay">
           <div>
             <label htmlFor="photo">

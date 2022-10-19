@@ -105,7 +105,7 @@ export const Signup: React.FC = () => {
                       variant="outline-info"
                       onClick={() => setUserKind("normal")}
                     >
-                      Tomorrow employee
+                      Tomorrow's employee
                     </ToggleButton>
                     <ToggleButton
                       type="radio"
@@ -115,7 +115,7 @@ export const Signup: React.FC = () => {
                       variant="outline-secondary"
                       onClick={() => setUserKind("employer")}
                     >
-                      Today employer
+                      Today's employer
                     </ToggleButton>
                   </ButtonGroup>
                 </FormGroup>
